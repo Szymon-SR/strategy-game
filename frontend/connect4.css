@@ -1,0 +1,105 @@
+body {
+  background-color: white;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.board {
+  display:flex;
+  --s: 120px;  /* size of hexes  */
+  --m: 2px;    /* margin between hexes */
+  --f: calc(1.732 * var(--s) + 4 * var(--m)  - 1px);
+}
+
+.column {
+  font-size: 0; /*disable white space between inline block element */
+}
+
+.column div {
+  width: var(--s);
+  margin: var(--m);
+  height: calc(var(--s)*1.1547); 
+  display: inline-block;
+  font-size:initial;
+  clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+  background: green;
+  margin-bottom: calc(var(--m) - var(--s)*0.2885);
+}
+
+.column::before {
+  content: "";
+  width: calc(var(--s)/2 + var(--m));
+  float: left;
+  height: 120%;
+  shape-outside: repeating-linear-gradient(     
+                   #0000 0 calc(var(--f) - 3px),      
+                   #000  0 var(--f));
+}
+
+
+.hex:hover {
+  background-color: lightgray;
+}
+
+.hex:hover ~ .empty {
+  background-color: white;
+}
+
+
+/* Connect Four board 
+
+.board {
+  background-color: blue;
+  display: flex;
+  flex-direction: row;
+  padding: 0 10px;
+  position: relative;
+}
+
+.board::before,
+.board::after {
+  background-color: blue;
+  content: "";
+  height: 720px;
+  width: 20px;
+  position: absolute;
+}
+
+.board::before {
+  left: -20px;
+}
+
+.board::after {
+  right: -20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 10px;
+}
+
+.cell {
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin: 10px 0;
+}
+
+.empty {
+  background-color: white;
+}
+
+.column:hover .empty {
+  background-color: lightgray;
+}
+
+.column:hover .empty ~ .empty {
+  background-color: white;
+}
+
+*/
