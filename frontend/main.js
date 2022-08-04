@@ -1,4 +1,4 @@
-import { createBoard } from "./connect4.js";
+import { createBoard } from "./game.js";
 
 window.addEventListener("DOMContentLoaded", () => {
   // Initialize the UI.
