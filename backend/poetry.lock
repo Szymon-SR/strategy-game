@@ -1,0 +1,15 @@
+[[package]]
+name = "websockets"
+version = "10.3"
+description = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[metadata]
+lock-version = "1.1"
+python-versions = "^3.10"
+content-hash = "d672cce895c868b120f636b43d54c62200fc925e56e708a74606a6e8d5992390"
+
+[metadata.files]
+websockets = []
