@@ -1,11 +1,48 @@
 body {
   background-color: white;
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   margin: 0;
   min-height: 100vh;
+  overflow: auto;
+}
+
+/* Top menu */
+
+.topmenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 720px;
+  height: 100px;
+}
+
+.info {
+  color: blue;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 300;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 20px;
+  width: 120px;
+}
+
+.value {
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 300;
+  text-align: left;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 20px;
+  width: 120px;
 }
 
 .board {

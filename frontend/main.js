@@ -32,8 +32,14 @@ function showMessage(message) {
 }
 
 function receiveGameEvents(board, websocket) {
+  // var t = setInterval(function () {
+  //   // you can change `random` to any variable you want to be displayed
+  //   var random = Math.random();
+  //   document.getElementById("value days").innerHTML = random;
+  // }, 500);
   websocket.addEventListener("message", ({ data }) => {
     
+
     // event will look like: event = {"type": "attack", "player": "red", "hexId": 3, "success": 1}
     const event = JSON.parse(data);
     switch (event.type) {
