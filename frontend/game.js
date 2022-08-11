@@ -21,17 +21,21 @@ function createBoard(board) {
   }
 }
 
-function visualizeAttack(board, player, hexId, success) {
-  // get the hex element on the map
+function paintHexByPlayerId(board, playerId, hexId) {
+  // change css class so it switches colors
   const hexElement = board.querySelectorAll(".hex")[hexId];
+
   if (hexElement === undefined) {
     throw new Error("Specified hex is not on the map");
   }
-  if (success == 1) {
-    // tile was conquered, change css class so it switches colors
-    hexElement.classList.replace("neutral", playerColors[player])
-  }
-
+  hexElement.className = "hex " + playerColors[playerId]
 }
 
-export { createBoard, visualizeAttack };
+function visualizeAttack(board, player, hexId, success) {
+  if (success == 1) {
+    // tile was conquered, switches colors
+    paintHexByPlayerId(board, player, hexId)
+  }
+}
+
+export { createBoard, visualizeAttack, paintHexByPlayerId };

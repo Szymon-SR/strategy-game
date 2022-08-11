@@ -1,4 +1,4 @@
-import { createBoard, visualizeAttack } from "./game.js";
+import { createBoard, visualizeAttack, paintHexByPlayerId } from "./game.js";
 console.log("Hejo")
 
 var playerIndex = -1
@@ -42,7 +42,7 @@ function receiveGameEvents(board, websocket) {
         playerIndex = 0
         break;
       case "game_state":
-        updateGame(event)
+        updateGame(board, event)
         break;
       case "index_assignment":
         playerIndex = event.index
@@ -64,9 +64,13 @@ function receiveGameEvents(board, websocket) {
   });
 }
 
-function updateGame(gameData) {
+function updateGame(board, gameData) {
   document.getElementById("value days").innerHTML = gameData.day;
-  // TODO home tiles
+  
+  for (const [index, tile] of gameData.home_tiles.entries()) {
+    paintHexByPlayerId(board, index, tile)
+  }
+
   document.getElementById("value money").innerHTML = gameData.money_balances[playerIndex]
   document.getElementById("value income").innerHTML = gameData.incomes[playerIndex]
   // TODO owned tiles
