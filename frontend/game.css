@@ -9,6 +9,15 @@ body {
   overflow: auto;
 }
 
+.sidemenu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 720px;
+  height: 50px;
+}
+
 /* Top menu */
 
 .topmenu {

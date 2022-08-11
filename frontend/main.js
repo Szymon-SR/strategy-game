@@ -1,6 +1,8 @@
 import { createBoard, visualizeAttack } from "./game.js";
 console.log("Hejo")
 
+var playerIndex = -1
+
 function initGame(websocket) {
   websocket.addEventListener("open", () => {
     // Send an "init" event according to who is connecting.
@@ -36,9 +38,14 @@ function receiveGameEvents(board, websocket) {
       case "init":
         // Create links for inviting the second player
         document.querySelector(".room").innerHTML = "http://0.0.0.0:8000/?join=" + event.join;
+        // Getting init message means that this is the first player
+        playerIndex = 0
         break;
       case "game_state":
         updateGame(event)
+        break;
+      case "index_assignment":
+        playerIndex = event.index
         break;
       case "attack":
         visualizeAttack(board, event.player, event.hexId, event.success)
@@ -59,6 +66,10 @@ function receiveGameEvents(board, websocket) {
 
 function updateGame(gameData) {
   document.getElementById("value days").innerHTML = gameData.day;
+  // TODO home tiles
+  document.getElementById("value money").innerHTML = gameData.money_balances[playerIndex]
+  document.getElementById("value income").innerHTML = gameData.incomes[playerIndex]
+  // TODO owned tiles
 }
 
 function sendAttacks(board, websocket) {

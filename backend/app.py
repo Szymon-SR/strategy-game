@@ -26,10 +26,14 @@ async def send_game_state(game: Game, connected):
     """Send current game state to all connected clients"""
     while True:
         game.run_tick()
-        # TODO replace with game state JSON
+
         game_state = {
             "type": "game_state",
-            "day": game.day
+            "day": game.day,
+            "home_tiles": [game.players[0].home_tile, game.players[1].home_tile], # home tiles of players, by player index
+            "money_balances": [game.players[0].money, game.players[1].money],
+            "incomes": [game.players[0].income, game.players[1].income],
+            "owned_tiles": [game.players[0].owned_tiles, game.players[1].owned_tiles],
         }
 
         websockets.broadcast(connected, json.dumps(game_state))
@@ -77,6 +81,15 @@ async def join(websocket, join_key):
     except KeyError:
         await error(websocket, "Game not found.")
         return
+    
+    # The amount of previously connected players becomes this player's id
+    player_index = len(connected)
+    # Assign the index to the player and send it
+    assignment = {
+        "type": "index_assignment",
+        "index": player_index,
+    }
+    await websocket.send(json.dumps(assignment))
 
     # Register to receive moves from this game.
     connected.add(websocket)
@@ -84,9 +97,8 @@ async def join(websocket, join_key):
     try:
         # Receive and process moves from the second player, also start sending game state
         tasks = []
-        # TODO not one but the amount of players
-        tasks.append(asyncio.create_task(handle_incoming(websocket, game, 1)))
-        tasks.append(asyncio.create_task(send_game_state(game, connected)))
+        tasks.append(asyncio.create_task(handle_incoming(websocket, game, player_index)))
+        tasks.append(asyncio.create_task(send_game_state(game, connected))) # TODO move to first player's start?
         await asyncio.gather(*tasks)
 
     finally:
