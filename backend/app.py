@@ -27,13 +27,16 @@ async def send_game_state(game: Game, connected):
     while True:
         game.run_tick()
 
+        player1owned = [tile.id for tile in game.players[0].owned_tiles]
+        player2owned = [tile.id for tile in game.players[1].owned_tiles] 
+
         game_state = {
             "type": "game_state",
             "day": game.day,
-            "home_tiles": [game.players[0].home_tile, game.players[1].home_tile], # home tiles of players, by player index
+            "home_tiles": [game.players[0].home_tile.id, game.players[1].home_tile.id], # home tiles of players, by player index
             "money_balances": [game.players[0].money, game.players[1].money],
             "incomes": [game.players[0].income, game.players[1].income],
-            "owned_tiles": [game.players[0].owned_tiles, game.players[1].owned_tiles],
+            "owned_tiles": [player1owned, player2owned],
         }
 
         websockets.broadcast(connected, json.dumps(game_state))
