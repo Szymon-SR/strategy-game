@@ -1,4 +1,4 @@
-import { createBoard, visualizeAttack, paintHexByPlayerId } from "./game.js";
+import { createBoard, visualizeAttack, paintHexByPlayerId, addHomeIcon } from "./game.js";
 console.log("Hejo")
 
 var playerIndex = -1
@@ -37,7 +37,10 @@ function receiveGameEvents(board, websocket) {
     switch (event.type) {
       case "init":
         // Create links for inviting the second player
-        document.querySelector(".room").innerHTML = "http://0.0.0.0:8000/?join=" + event.join;
+        const inviteLink = "http://0.0.0.0:8000/?join=" + event.join
+        document.querySelector(".room").innerHTML = '<a href="' + inviteLink + '">' + inviteLink + '</a>';
+
+        
         // Getting init message means that this is the first player
         playerIndex = 0
         break;
@@ -67,41 +70,80 @@ function receiveGameEvents(board, websocket) {
 function updateGame(board, gameData) {
   document.getElementById("value days").innerHTML = gameData.day;
   
-  for (const [index, tile] of gameData.home_tiles.entries()) {
-    paintHexByPlayerId(board, index, tile)
+  // home tiles
+  if (gameData.day == 1) {
+    console.log("wiad")
+    for (const tile of gameData.home_tiles) {
+      addHomeIcon(board, tile)
+    }
   }
 
   document.getElementById("value money").innerHTML = gameData.money_balances[playerIndex]
   document.getElementById("value income").innerHTML = gameData.incomes[playerIndex]
-  // TODO owned tiles
+  
+  // paint owned tiles
+  for (const [index, tileList] of gameData.owned_tiles.entries()) {
+    for (const tile of tileList) {
+      paintHexByPlayerId(board, index, tile)
+    }
+  }
 }
 
-function sendAttacks(board, websocket) {
+
+
+function waitForHexClicks(board, websocket) {
+
   // When clicking a hex, send an event
   board.addEventListener("click", ({ target }) => {
     const id = target.dataset.hexId;
-    // Ignore clicks outside a column.
+
     if (id === undefined) {
       return;
     }
-    console.info("Hejo2")
-    const event = {
-      type: "attack",
-      id: parseInt(id, 10),
-    };
-    websocket.send(JSON.stringify(event));
+    // Remove previous clicked hex, and make the new one clicked
+    // Only one hex can be selected at once
+    var currentlySelected = document.querySelector(".hex.clicked");
+    if (currentlySelected) {
+      currentlySelected.classList.remove("clicked");
+    }
+    // if clicked the same hex, unselect only
+    if (currentlySelected == null || ! currentlySelected.dataset.hexId == target.dataset.hexId) {
+      // The toggle allows also to have no hex selected
+      target.classList.toggle("clicked");
+    }
+    
+    // Change side action menu
+    if (target.classList.contains("clicked")) {
+    document.getElementById("general-action").classList.toggle("hidden");
+    document.getElementById("hex-action").classList.toggle("hidden");
+    }
   });
+}
+
+
+
+
+function sendAttack(id, websocket) {
+  const event = {
+    type: "attack",
+    tileId: parseInt(id, 10),
+    playerId: parseInt(playerIndex, 10),
+  };
+  websocket.send(JSON.stringify(event));
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   // Initialize the UI.
+  const body = document.querySelector("body");
   const board = document.querySelector(".board");
   createBoard(board);
   // Open the WebSocket connection and register event handlers.
   const websocket = new WebSocket("ws://localhost:8001/");
   initGame(websocket);
   receiveGameEvents(board, websocket);
-  sendAttacks(board, websocket);
+  waitForHexClicks(board, websocket);
+
+
 });
 
 

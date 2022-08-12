@@ -52,7 +52,7 @@ async def start(websocket):
     game = Game()
 
     connected = {websocket}
-    join_key = secrets.token_urlsafe(12)
+    join_key = secrets.token_urlsafe(6)
     JOIN[join_key] = game, connected
 
     try:

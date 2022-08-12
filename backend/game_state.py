@@ -4,7 +4,7 @@ from tile import Tile
 class Game():
     """Class keeping the data of the current game"""
     def __init__(self):
-        self.day = 1
+        self.day = 0
         self.tiles = [Tile(i) for i in range(64)]
         self.players = [Player(self.tiles), Player(self.tiles)]
 

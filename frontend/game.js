@@ -1,4 +1,4 @@
-const playerColors = ["red", "black"]
+const playerColors = ["red", "blue"]
 
 function createBoard(board) {
   // Inject stylesheet
@@ -21,14 +21,33 @@ function createBoard(board) {
   }
 }
 
-function paintHexByPlayerId(board, playerId, hexId) {
-  // change css class so it switches colors
-  const hexElement = board.querySelectorAll(".hex")[hexId];
+function getHexById(board, hexId) {
+  const element = board.querySelectorAll(".hex")[hexId];
 
-  if (hexElement === undefined) {
+  if (element === undefined) {
     throw new Error("Specified hex is not on the map");
   }
-  hexElement.className = "hex " + playerColors[playerId]
+
+  return element;
+}
+
+function paintHexByPlayerId(board, playerId, hexId) {
+  // change css class so it switches colors
+  const hexElement = getHexById(board, hexId);
+  //hexElement.className = "hex " + playerColors[playerId];
+  hexElement.classList.remove("neutral")
+  hexElement.classList.add(playerColors[playerId])
+}
+
+function addHomeIcon(board, hexId) {
+  // var icon = document.createElement("img")
+  // icon.setAttribute("src", "images/castle.png")
+  // icon.setAttribute("height", "20")
+  // icon.setAttribute("width", "20")
+  
+  const hexElement = getHexById(board, hexId);
+  // hexElement.appendChild(icon)
+  hexElement.classList.add("home");
 }
 
 function visualizeAttack(board, player, hexId, success) {
@@ -38,4 +57,4 @@ function visualizeAttack(board, player, hexId, success) {
   }
 }
 
-export { createBoard, visualizeAttack, paintHexByPlayerId };
+export { createBoard, visualizeAttack, paintHexByPlayerId, addHomeIcon };

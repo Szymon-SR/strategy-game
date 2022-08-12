@@ -1,8 +1,8 @@
 body {
   background-color: white;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
   margin: 0;
   min-height: 100vh;
@@ -10,12 +10,16 @@ body {
 }
 
 .sidemenu {
+  width: 400px;
+}
+
+.focusmenu {
+  width: 400px;
+}
+
+.centerpanel {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
-  width: 720px;
-  height: 50px;
+  flex-direction: column;
 }
 
 /* Top menu */
@@ -26,7 +30,7 @@ body {
   justify-content: space-evenly;
   align-items: flex-start;
   width: 720px;
-  height: 100px;
+  height: 50px;
 }
 
 .info {
@@ -90,6 +94,7 @@ body {
                    #000  0 var(--f));
 }
 
+
 /* Hex colors based on who owns them*/
 .neutral {
   background-color: yellowgreen;
@@ -99,8 +104,8 @@ body {
   background-color: red;
 }
 
-.black {
-  background-color: black;
+.blue {
+  background-color: blue;
 }
 
 .hex:hover {
@@ -109,4 +114,19 @@ body {
 
 .hex:hover ~ .empty {
   background-color: white;
+}
+
+.home {
+  background-image: url('images/small_castle.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+.hidden {
+  display: none;
+}
+
+.clicked {
+  box-shadow:inset 0px 0px 0px 10px green;
 }
