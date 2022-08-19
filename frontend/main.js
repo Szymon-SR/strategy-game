@@ -100,22 +100,23 @@ function waitForHexClicks(board, websocket) {
     if (id === undefined) {
       return;
     }
-    // Remove previous clicked hex, and make the new one clicked
-    // Only one hex can be selected at once
-    var currentlySelected = document.querySelector(".hex.clicked");
-    if (currentlySelected) {
-      currentlySelected.classList.remove("clicked");
+    var previoslySelected = document.querySelector(".hex.clicked");
+    if (previoslySelected && previoslySelected.dataset.hexId != target.dataset.hexId) {
+      // Only one hex can be selected at once
+      previoslySelected.classList.remove("clicked");
     }
-    // if clicked the same hex, unselect only
-    if (currentlySelected == null || ! currentlySelected.dataset.hexId == target.dataset.hexId) {
-      // The toggle allows also to have no hex selected
-      target.classList.toggle("clicked");
-    }
+
+    target.classList.toggle("clicked");
     
-    // Change side action menu
-    if (target.classList.contains("clicked")) {
-    document.getElementById("general-action").classList.toggle("hidden");
-    document.getElementById("hex-action").classList.toggle("hidden");
+    // if any hex is selected, show side action panel corresponding to this hex
+    var nowSelected = document.querySelector(".hex.clicked");
+    if (nowSelected) {
+      document.getElementById("general-action").classList.add("hidden");
+      document.getElementById("hex-action").classList.remove("hidden");
+    }
+    else {
+      document.getElementById("general-action").classList.remove("hidden");
+      document.getElementById("hex-action").classList.add("hidden");
     }
   });
 }
