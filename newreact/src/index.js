@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { CenterPanel } from "./board-components.js";
+import { FocusMenu } from "./focus-components.js";
 
 function initGame(websocket) {
   websocket.addEventListener("open", () => {
@@ -12,7 +13,7 @@ function initGame(websocket) {
     if (params.has("join")) {
       // Second player joins an existing game.
       event.join = params.get("join");
-    } 
+    }
     else {
       // First player starts a new game.
     }
@@ -22,39 +23,58 @@ function initGame(websocket) {
 
 
 // Components 
-class Game extends React.Component {
-  constructor(props) {
-    super(props);
+const SelectedDispatch = React.createContext(null);
+const initialD = { anySelected: false, lastSelected: 0 };
 
-    this.state = {
-      playerIndex: 0,
-      day: 69,
-      home_tiles: [11, 21], // home tiles of players, by player index
-      money_balances: [420, 240],
-      incomes: [0.5, 1.5],
-      owned_tiles: [[11, 12, 13], [21, 22, 23]],
+function Game(props) {
+
+  const [gameState, setGameState] = useState({
+    playerIndex: 0,
+    day: 0,
+    home_tiles: [], // home tiles of players, by player index
+    money_balances: [0, 0],
+    incomes: [0, 0],
+    owned_tiles: [[], []],
+  });
+
+  const [playerIndex, setPlayerIndex] = useState(0);
+  const [inviteLink, setInviteLink] = useState("");
+
+  // reducer for logic of selecting / unselecting tiles on map
+  const selectedReducer = (state, action) => {
+    console.log(state);
+    console.log(action);
+
+    if (state.lastSelected == action.clickedId) {
+      // if the same hex was clicked, it is possible to unselect it
+      return { anySelected: !state.anySelected, lastSelected: action.clickedId };
     }
 
-    this.numberOfTiles = 64;  // how many tiles are on the map
+    // a new hex was clicked, always it is selected
+    return { anySelected: true, lastSelected: action.clickedId }
   }
 
-  receiveGameEvents(websocket) {
+  const [selected, dispatch] = useReducer(selectedReducer, initialD);
+
+  const numberOfTiles = 64;  // how many tiles are on the map
+
+  const receiveGameEvents = (websocket) => {
     websocket.addEventListener("message", ({ data }) => {
       const event = JSON.parse(data);
       switch (event.type) {
         case "init":
           // Create links for inviting the second player
           const link = "http://0.0.0.0:3000/?join=" + event.join;
-          this.setState({inviteLink: link});
-          
+          setInviteLink(link);
+
           // Getting init message means that this is the first player
           // playerIndex = 0
           break;
         case "game_state":
-          this.setState(event);
+          setGameState(event);
           break;
         case "index_assignment":
-          this.setState({playerIndex: event.index});
+          setPlayerIndex(event.index);
           break;
         case "error":
           console.error(event.message);
@@ -65,42 +85,47 @@ class Game extends React.Component {
     });
   }
 
-  componentDidMount() {
-    // runs after output has been rendered
+  useEffect(() => {
     const websocket = new WebSocket("ws://localhost:8001/");
     initGame(websocket);
-    this.receiveGameEvents(websocket);
-  }
+    receiveGameEvents(websocket);
+  }, [])
 
-  render() {
-    return (
-      <div className="game">
-        <BaseMenu
-          playerIndex = {this.state.playerIndex}
-          inviteLink = {this.state.inviteLink}
-          />
-        <CenterPanel 
-          day = {this.state.day}
-          home_tiles = {this.state.home_tiles}
+
+  return (
+    <div className="game">
+      <BaseMenu
+        playerIndex={playerIndex}
+        inviteLink={inviteLink}
+      />
+      <SelectedDispatch.Provider value={dispatch}>
+        <CenterPanel
+          day={gameState.day}
+          home_tiles={gameState.home_tiles}
           // balance and income are personalized for specific player
-          balance = {this.state.money_balances[this.state.playerIndex]}
-          income = {this.state.incomes[this.state.playerIndex]}
-          owned_tiles = {this.state.owned_tiles}
-          numberOfTiles = {this.numberOfTiles}
+          balance={gameState.money_balances[playerIndex]}
+          income={gameState.incomes[playerIndex]}
+          owned_tiles={gameState.owned_tiles}
+          numberOfTiles={numberOfTiles}
         />
-        <FocusMenu />
-      </div>
-    );
-  }
+      </SelectedDispatch.Provider>
+      <FocusMenu 
+        anySelected={selected.anySelected}
+        lastSelected={selected.lastSelected}
+      />
+    </div>
+  );
 }
+
+// ==============================================
 
 function BaseMenu(props) {
   return (
     <div
       className="base-menu"
     >
-      <PlayerInfo playerIndex = {props.playerIndex} />
-      <RoomInfo inviteLink = {props.inviteLink} />
+      <PlayerInfo playerIndex={props.playerIndex} />
+      <RoomInfo inviteLink={props.inviteLink} />
       <ScoreInfo />
     </div>
   )
@@ -130,16 +155,7 @@ function ScoreInfo(props) {
   )
 }
 
-//Right
-function FocusMenu(props) {
-  return (
-    <div
-      className="focus-menu"
-    >
-      Not yet
-    </div>
-  )
-}
+
 
 
 
@@ -152,3 +168,5 @@ const linkElement = document.createElement("link");
 linkElement.href = import.meta.url.replace(".js", ".css");
 linkElement.rel = "stylesheet";
 document.head.append(linkElement);
+
+export { SelectedDispatch };
