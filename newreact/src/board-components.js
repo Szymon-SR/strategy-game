@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { SelectedDispatch } from "./index.js"
+import { SelectedDispatch } from "./App.js"
 
 const playerColors = ["neutral", "red", "blue"]
 const NUMBER_OF_PLAYERS = 2

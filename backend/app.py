@@ -17,8 +17,12 @@ async def handle_incoming(websocket, game: Game, player: int):
     # IN
     async for message in websocket:
         event = json.loads(message)
-        print(event)
-        # TODO player's move affect game obj
+
+        if event["type"] == "claim":
+            claiming_player_id = event["player_id"]
+            claimed_tile_id = event["hex_id"]
+            game.players[claiming_player_id].try_to_claim_tile(game.tiles[claimed_tile_id])
+
 
 
 async def send_game_state(game: Game, connected):
