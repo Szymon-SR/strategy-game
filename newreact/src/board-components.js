@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import React, { useContext } from "react"
 import { SelectedDispatch } from "./index.js"
 
 const playerColors = ["neutral", "red", "blue"]
@@ -105,7 +105,7 @@ function Hex(props) {
   const dispatch = useContext(SelectedDispatch);
 
   function handleHexClick() {
-    dispatch({ clickedId: props.hexId });
+    dispatch({ type: "click", clickedId: props.hexId });
   }
 
   return (

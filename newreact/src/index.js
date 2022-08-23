@@ -4,6 +4,9 @@ import './index.css';
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 function initGame(websocket) {
   websocket.addEventListener("open", () => {
 
@@ -35,6 +38,7 @@ function Game(props) {
     money_balances: [0, 0],
     incomes: [0, 0],
     owned_tiles: [[], []],
+    tile_incomes: [],
   });
 
   const [playerIndex, setPlayerIndex] = useState(0);
@@ -42,17 +46,27 @@ function Game(props) {
 
   // reducer for logic of selecting / unselecting tiles on map
   const selectedReducer = (state, action) => {
-    console.log(state);
-    console.log(action);
+    console.log(state)
 
-    if (state.lastSelected == action.clickedId) {
-      // if the same hex was clicked, it is possible to unselect it
-      return { anySelected: !state.anySelected, lastSelected: action.clickedId };
+    switch (action.type) {
+      case "click": {
+        if (state.lastSelected == action.clickedId) {
+          // if the same hex was clicked, it is possible to unselect it
+          return { anySelected: !state.anySelected, lastSelected: action.clickedId };
+        }
+
+        // a new hex was clicked, always it is selected
+        return { anySelected: true, lastSelected: action.clickedId }
+      }
+      case "unselect": {
+        return { anySelected: false, lastSelected: action.clickedId }
+      }
+      default: {
+        console.error("Bad selection type");
+      }
     }
-
-    // a new hex was clicked, always it is selected
-    return { anySelected: true, lastSelected: action.clickedId }
   }
+
 
   const [selected, dispatch] = useReducer(selectedReducer, initialD);
 
@@ -108,11 +122,12 @@ function Game(props) {
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
         />
+        <FocusMenu
+          anySelected={selected.anySelected}
+          selectedId={selected.lastSelected}
+          selectedIncome={gameState.tile_incomes[selected.lastSelected]}
+        />
       </SelectedDispatch.Provider>
-      <FocusMenu 
-        anySelected={selected.anySelected}
-        lastSelected={selected.lastSelected}
-      />
     </div>
   );
 }
@@ -163,10 +178,5 @@ function ScoreInfo(props) {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<Game />);
 
-// Inject stylesheet
-const linkElement = document.createElement("link");
-linkElement.href = import.meta.url.replace(".js", ".css");
-linkElement.rel = "stylesheet";
-document.head.append(linkElement);
 
 export { SelectedDispatch };
