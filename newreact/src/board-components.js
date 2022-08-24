@@ -20,6 +20,7 @@ function CenterPanel(props) {
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
         owned_tiles={props.owned_tiles}
+        soldierPositions={props.soldierPositions}
       />
     </div>
   )
@@ -61,6 +62,7 @@ function Board(props) {
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
         owned_tiles={props.owned_tiles}
+        // receive soldier positions
       />
     </div>
   )

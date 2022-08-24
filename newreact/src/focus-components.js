@@ -155,7 +155,7 @@ function Unselect(props) {
 
   return (
     <Button onClick={handleClick}>
-      Unselect
+      Close
     </Button>
   )
 }

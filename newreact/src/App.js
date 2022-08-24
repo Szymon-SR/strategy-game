@@ -23,6 +23,7 @@ function Game(props) {
     incomes: [0, 0],
     owned_tiles: [[], []],
     tile_incomes: [],
+    soldier_positions: [],
   });
 
   const initGame = () => {
@@ -134,6 +135,7 @@ function Game(props) {
           income={gameState.incomes[playerIndex]}
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
+          soldierPositions={gameState.soldier_positions}
         />
         <FocusMenu
           anySelected={selected.anySelected}

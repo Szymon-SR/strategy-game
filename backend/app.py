@@ -22,8 +22,17 @@ async def handle_incoming(websocket, game: Game, player: int):
             claiming_player_id = event["player_id"]
             claimed_tile_id = event["hex_id"]
             game.players[claiming_player_id].try_to_claim_tile(game.tiles[claimed_tile_id])
+        if event["type"] == "build":
+            logging.error("Not implemented yet")
+        if event["type"] == "move":
+            player_id = event["player_id"]
+            source_id = event["source"]
+            destination_id = event["destination"]
+            soldier_count = event["soldier_count"]
 
-
+            game.handle_soldier_moves(player_id, source_id, destination_id, soldier_count)
+        else:
+            logging.error(event)
 
 async def send_game_state(game: Game, connected):
     # OUT
@@ -31,17 +40,21 @@ async def send_game_state(game: Game, connected):
     while True:
         game.run_tick()
 
-        player1owned = [tile.id for tile in game.players[0].owned_tiles]
-        player2owned = [tile.id for tile in game.players[1].owned_tiles] 
+        player0 = game.players[0]
+        player1 = game.players[1]
+
+        player1owned = [tile.id for tile in player0.owned_tiles]
+        player2owned = [tile.id for tile in player1.owned_tiles] 
 
         game_state = {
             "type": "game_state",
             "day": game.day,
-            "home_tiles": [game.players[0].home_tile.id, game.players[1].home_tile.id], # home tiles of players, by player index
-            "money_balances": [game.players[0].money, game.players[1].money],
-            "incomes": [game.players[0].income, game.players[1].income],
+            "home_tiles": [player0.home_tile.id, player1.home_tile.id], # home tiles of players, by player index
+            "money_balances": [player0.money, player1.money],
+            "incomes": [player0.income, player1.income],
             "owned_tiles": [player1owned, player2owned],
-            "tile_incomes": [tile.income for tile in game.tiles]
+            "tile_incomes": [tile.income for tile in game.tiles],
+            "soldier_positions": [player0.soldier_positions, player1.soldier_positions],
         }
 
         websockets.broadcast(connected, json.dumps(game_state))
