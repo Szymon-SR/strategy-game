@@ -1,7 +1,8 @@
 import React, { useContext } from "react"
-import { SelectedDispatch } from "./App.js"
+import { playerColors, SelectedDispatch } from "./App.js"
 
-const playerColors = ["neutral", "red", "blue"]
+import Badge from 'react-bootstrap/Badge';
+
 const NUMBER_OF_PLAYERS = 2
 
 // All components in the Center panel
@@ -62,7 +63,7 @@ function Board(props) {
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
         owned_tiles={props.owned_tiles}
-        // receive soldier positions
+        soldierPositions={props.soldierPositions}
       />
     </div>
   )
@@ -72,19 +73,36 @@ function Map(props) {
   const hexIds = [...Array(props.numberOfTiles).keys()];
 
   const hexOwners = new Array(props.numberOfTiles).fill(0);    // hexId => ownerId
-  for (const [playerI, playerOwned] of props.owned_tiles.entries()) {
+  for (const [index, playerOwned] of props.owned_tiles.entries()) {
     for (const hexId of playerOwned) {
-      hexOwners[hexId] = playerI + 1
+      hexOwners[hexId] = index + 1
     }
   }
+
+  // hexId => player Id of player who has soldiers on this tile
+  const soldierOwners = new Array(props.numberOfTiles).fill(0);
+  // number of soldiers on given tile
+  const soldierCounts = new Array(props.numberOfTiles).fill(0);
+
+  for (const [index, positionsObj] of props.soldierPositions.entries()) {
+    for (const hexId in positionsObj) {
+      soldierOwners[hexId] = index + 1;
+      soldierCounts[hexId] = positionsObj[hexId];
+    }
+  }
+
+  // console.log(soldierOwners);
+  // console.log(soldierCounts);
 
   // create all hex tiles
   const hexItems = hexIds.map((id) =>
     <Hex
       key={id.toString()}
       hexId={id}
-      isHome={props.home_tiles.includes(id)} // it is home or it is not ;)
+      isHome={props.home_tiles.includes(id)} // it is home or it is not
       ownerId={hexOwners[id]}
+      soldierOwnerId={soldierOwners[id]}
+      soldierCount={soldierCounts[id]}
     />
   );
 
@@ -98,8 +116,18 @@ function Map(props) {
 }
 
 function Hex(props) {
-  //const [hexId, setHexId] = useState(props.hexNumber);
-  //const [ownerId, setOwnerID] = useState(0);
+  // let badgeComponent;
+
+  // if (props.soldierCount > 0) {
+  //   const bgs = ["success", "danger", "primary"];
+  //   badgeComponent = <Badge pill as="p" bg={bgs[props.soldierOwnerId]}> {props.soldierCount} </Badge>
+  // }
+  // else {
+  //   badgeComponent = <Badge pill as="p"> {props.soldierCount} </Badge>
+  // }
+
+  const badgeColors = ["success", "danger", "primary"];
+  let badgeColor = badgeColors[props.soldierOwnerId]
 
   const ownerColor = playerColors[props.ownerId];
 
@@ -115,16 +143,9 @@ function Hex(props) {
       className={props.isHome ? "hex " + ownerColor + " home" : "hex " + ownerColor}
       onClick={handleHexClick} // this function can be passed if we want to change parent
     >
-      {props.hexId}
+      <Badge pill as="p" bg={badgeColor}> {props.soldierCount} </Badge>
     </div>
   );
 }
-
-//   for (let hexNumber = 0; hexNumber < 64; hexNumber++) {
-//     const hexElement = document.createElement("div");
-//     hexElement.className = "hex neutral";
-//     hexElement.dataset.hexId = hexNumber;
-//     mapElement.append(hexElement);
-//   }
 
 export { CenterPanel };

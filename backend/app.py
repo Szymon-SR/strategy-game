@@ -54,7 +54,7 @@ async def send_game_state(game: Game, connected):
             "incomes": [player0.income, player1.income],
             "owned_tiles": [player1owned, player2owned],
             "tile_incomes": [tile.income for tile in game.tiles],
-            "soldier_positions": [player0.soldier_positions, player1.soldier_positions],
+            "soldier_positions": [player0.soldier_positions_ints(), player1.soldier_positions_ints()],
         }
 
         websockets.broadcast(connected, json.dumps(game_state))

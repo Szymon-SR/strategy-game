@@ -5,6 +5,8 @@ import { FocusMenu } from "./focus-components.js";
 
 import Table from 'react-bootstrap/Table';
 
+const playerColors = ["neutral", "red", "blue"]
+
 // Components 
 const SelectedDispatch = React.createContext(null);
 const initialD = { anySelected: false, lastSelected: 0 };
@@ -162,6 +164,10 @@ function BaseMenu(props) {
             <td>{props.playerIndex}</td>
           </tr>
           <tr>
+            <td>Your color</td>
+            <td>{playerColors[props.playerIndex + 1]}</td>
+          </tr>
+          <tr>
             <td>Invite link</td>
             <td>{props.inviteLink}</td>
           </tr>
@@ -203,4 +209,4 @@ function BaseMenu(props) {
 // }
 
 
-export { SelectedDispatch, Game };  
+export { playerColors, SelectedDispatch, Game };  
