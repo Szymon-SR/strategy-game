@@ -93,7 +93,10 @@ function Actions(props) {
           />
         </Col>
         <Col>
-          jo
+          <ActionCard
+            type="Recruit"
+            handlePlayerActions={() => props.handlePlayerActions({type: "recruit"})}
+          />
         </Col>
       </Row>
       <Row className="mb-3">
@@ -122,11 +125,13 @@ function ActionCard(props) {
     "Tower": "Looks cool, will do something I guess",
     "Windmill": "Increases income in tile by 50%",
     "Claim": "Add this tile to your kingdom",
+    "Recruit": "Train new soldiers here",
   };
   const costs = {
     "Tower": "Build for 150",
     "Windmill": "Build for 200",
-    "Claim": "Claim for 250"
+    "Claim": "Claim for 250",
+    "Recruit": "Recruit for 50",
   };
 
   return (
