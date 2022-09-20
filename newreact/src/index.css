@@ -22,42 +22,6 @@
     flex-direction: column;
 }
 
-/* Top menu */
-
-.top-menu {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: flex-start;
-    height: 50px;
-    background-color: beige;
-}
-
-.data-name {
-    color: blue;
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 15px;
-    line-height: 20px;
-    font-weight: 300;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    padding: 20px;
-    width: 120px;
-}
-
-.data-value {
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 15px;
-    line-height: 20px;
-    font-weight: 300;
-    text-align: left;
-    text-decoration: none;
-    text-transform: uppercase;
-    padding: 20px;
-    width: 120px;
-}
-
 .board {
     width: 900px;
     --s: 100px;

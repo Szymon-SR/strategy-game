@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useReducer, useRef, useState } from 'react';
 
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
@@ -47,12 +47,10 @@ function Game(props) {
 
   const selectedReducer = (state, action) => {
     // reducer for handling of selecting / unselecting tiles on map, by clicking on tiles
-
-    console.log(state)
-
+    
     switch (action.type) {
       case "click": {
-        if (state.lastSelected == action.clickedId) {
+        if (state.lastSelected === action.clickedId) {
           // if the same hex was clicked, it is possible to unselect it
           return { anySelected: !state.anySelected, lastSelected: action.clickedId };
         }
@@ -73,11 +71,15 @@ function Game(props) {
     // handles actions from the side menu, actions which player does on a specific tile
     let message = { type: action.type, player_id: playerIndex, hex_id: selected.lastSelected };
     
-    const validActions = ["claim", "build"]
+    const validActions = ["claim", "build", "move"]
     console.assert(validActions.includes(action.type))
 
-    if (action.type == "build") {
+    if (action.type === "build") {
       message.building = action.building;
+    }
+    if (action.type === "move") {
+      message.direction = action.direction;
+      message.count = action.count;
     }
 
     websocket.current.send(JSON.stringify(message));

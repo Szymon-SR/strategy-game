@@ -18,10 +18,15 @@ class Game():
         for player in self.players:
             player.earn_income()
 
-    def handle_soldier_moves(self, player_id: int, source_id: int, destination_id: int, soldier_count: int):
+    def handle_soldier_moves(self, player_id: int, source_id: int, direction: str, soldier_count: int):
+
+        # calculate id of destination tile
+        destination_id = 5  # TODO implement
+
+
         # check if some other player has soldiers there
         for other_player in self.players:
-            if other_player.id != player_id and other_player.soldier_positions[self.tiles[destination_id]] and other_player.soldier_positions[self.tiles[destination_id]] > 0:
+            if other_player.id != player_id and other_player.soldier_positions[self.tiles[destination_id]]:
                 # TODO fight
                 pass
             else:

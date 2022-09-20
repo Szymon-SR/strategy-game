@@ -1,9 +1,10 @@
 import React, { useContext } from "react"
 import { playerColors, SelectedDispatch } from "./App.js"
 
+import Table from 'react-bootstrap/Table';
 import Badge from 'react-bootstrap/Badge';
 
-const NUMBER_OF_PLAYERS = 2
+// const NUMBER_OF_PLAYERS = 2
 
 // All components in the Center panel
 
@@ -30,27 +31,30 @@ function CenterPanel(props) {
 function TopMenu(props) {
   // menu which displays basic data about player's country
   return (
-    <div
-      className="top-menu"
-    >
-      <DataCell class="data-name" value="Day" />
-      <DataCell class="data-value" value={props.day} />
-      <DataCell class="data-name" value="Money" />
-      <DataCell class="data-value" value={props.balance} />
-      <DataCell class="data-name" value="Income" />
-      <DataCell class="data-value" value={props.income} />
-    </div>
-  )
-}
-
-function DataCell(props) {
-  // for use in top menu, for each data value
-  return (
-    <div
-      className={props.class}
-    >
-      {props.value}
-    </div>
+    <Table striped="columns">
+      <tbody>
+        <tr>
+          <td>
+            Day
+          </td>
+          <td>
+            {props.day}
+          </td>
+          <td>
+            Money
+          </td>
+          <td>
+            {props.balance}
+          </td>
+          <td>
+            Income
+          </td>
+          <td>
+            {props.income}
+          </td>
+        </tr>
+      </tbody>
+    </Table>
   )
 }
 

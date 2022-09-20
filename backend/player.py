@@ -2,6 +2,8 @@ import random
 from typing import List
 
 from tile import Tile
+import logging
+logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
 STARTING_MONEY = 500
 STARTING_SOLDIERS = 7
@@ -64,7 +66,9 @@ class Player():
 
         if self.soldier_positions[source] >= soldier_count:
             # move soldiers
-            self.soldier_positions[source] -= soldier_count
-            self.soldier_positions[destination] += soldier_count
+            logging.info(f"destination {destination} soldier_count {soldier_count}")
+
+            # self.soldier_positions[source] -= soldier_count
+            # self.soldier_positions[destination] += soldier_count
         else:
-            raise Exception("Not enough soldiers")
+            logging.error("Not enough soldiers")

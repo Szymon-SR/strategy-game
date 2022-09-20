@@ -26,11 +26,11 @@ async def handle_incoming(websocket, game: Game, player: int):
             logging.error("Not implemented yet")
         if event["type"] == "move":
             player_id = event["player_id"]
-            source_id = event["source"]
-            destination_id = event["destination"]
-            soldier_count = event["soldier_count"]
+            source_id = event["hex_id"]
+            direction = event["direction"]
+            soldier_count = event["count"]
 
-            game.handle_soldier_moves(player_id, source_id, destination_id, soldier_count)
+            game.handle_soldier_moves(player_id, source_id, direction, soldier_count)
         else:
             logging.error(event)
 
