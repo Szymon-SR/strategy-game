@@ -48,17 +48,23 @@ class Player():
 
         self.money += self.income
 
-    def try_to_claim_tile(self, tile: Tile) -> bool:
+    def check_if_tile_neighbors_any(self, checked_tile: Tile) -> bool:
+        """Return true if passed tile neighbors ANY tile owned by player"""
+        for tile in self.owned_tiles:
+            if tile.check_if_neighbor(checked_tile):
+                return True
+        
+        return False
+
+    def try_to_claim_tile(self, claimed_tile: Tile) -> bool:
         """Returns true of player claimed tile, false if he can not"""
         
         # check if player has enough money, doesn't already have this tile and borders this tile
-        if COSTS["claim"] <= self.money and tile not in self.owned_tiles:
-            # TODO add checking if neighbors https://stackoverflow.com/questions/6661169/finding-adjacent-neighbors-on-a-hexagonal-grid
-            # https://www.redblobgames.com/
+        if COSTS["claim"] <= self.money and claimed_tile not in self.owned_tiles and self.check_if_tile_neighbors_any(claimed_tile):
             self.money -= COSTS["claim"]
-            self.owned_tiles.append(tile)
+            self.owned_tiles.append(claimed_tile)
             return True
-        else: 
+        else:
             return False
 
     def move_soldiers(self, source: Tile, destination: Tile, soldier_count: int):
