@@ -71,7 +71,7 @@ function Game(props) {
     // handles actions from the side menu, actions which player does on a specific tile
     let message = { type: action.type, player_id: playerIndex, hex_id: selected.lastSelected };
     
-    const validActions = ["claim", "build", "move"]
+    const validActions = ["claim", "build", "move", "recruit"]
     console.assert(validActions.includes(action.type))
 
     if (action.type === "build") {

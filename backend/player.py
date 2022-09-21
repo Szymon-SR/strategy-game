@@ -7,7 +7,7 @@ logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
 STARTING_MONEY = 500
 STARTING_SOLDIERS = 7
-COSTS = {"claim": 250, "tower": 150, "windmill": 200}
+COSTS = {"claim": 250, "tower": 150, "windmill": 200, "recruit": 50}
 
 
 def generate_home_tile(hex_list: List[Tile]) -> Tile:
@@ -23,7 +23,7 @@ def generate_home_tile(hex_list: List[Tile]) -> Tile:
 
 class Player():
     """Class keeping the data of one player and his country"""
-    home_hexes = [] # class variable to ensure two players don't get the same starting tile
+    home_hexes = []  # class variable to ensure two players don't get the same starting tile
 
     def __init__(self, valid_hexes: List[Tile], id: int):
         self.id = id
@@ -32,7 +32,7 @@ class Player():
         self.income = 0.0
         self.owned_tiles = [self.home_tile]
         self.soldier_positions = {self.home_tile: STARTING_SOLDIERS}
-    
+
     def soldier_positions_ints(self) -> dict:
         """Returns the soldier count by tile id instead of tile object"""
         result = {}
@@ -41,7 +41,6 @@ class Player():
             result[tile.id] = count
 
         return result
-
 
     def earn_income(self) -> None:
         self.income = sum([tile.income for tile in self.owned_tiles])
@@ -53,17 +52,34 @@ class Player():
         for tile in self.owned_tiles:
             if tile.check_if_neighbor(checked_tile):
                 return True
-        
+
         return False
 
     def try_to_claim_tile(self, claimed_tile: Tile) -> bool:
-        """Returns true of player claimed tile, false if he can not"""
-        
-        # check if player has enough money, doesn't already have this tile and borders this tile
-        if COSTS["claim"] <= self.money and claimed_tile not in self.owned_tiles and self.check_if_tile_neighbors_any(claimed_tile):
+        """Returns true if player claimed tile, false if he can not"""
+
+        # check if player has enough money, doesn't already have this tile, has soldiers on this tile
+        # and borders this tile
+        if (COSTS["claim"] <= self.money and claimed_tile not in self.owned_tiles and
+                self.check_if_tile_neighbors_any(claimed_tile) and claimed_tile in self.soldier_positions):
             self.money -= COSTS["claim"]
             self.owned_tiles.append(claimed_tile)
             return True
+        else:
+            return False
+
+    def increase_soldiers_in_tile(self, target_tile: Tile, soldier_count: int) -> None:
+        if target_tile in self.soldier_positions:
+            self.soldier_positions[target_tile] += soldier_count
+        else:
+            self.soldier_positions[target_tile] = soldier_count
+
+    def recruit(self, target_tile: Tile) -> bool:
+        """Returns true if player recruited soldiers in tile, false if he can not"""
+        # check if player owns tile and has enough money
+        if COSTS["recruit"] <= self.money and target_tile in self.owned_tiles:
+            self.money -= COSTS["recruit"]
+            self.increase_soldiers_in_tile(target_tile, 1)
         else:
             return False
 
@@ -73,12 +89,10 @@ class Player():
         if source in self.soldier_positions:
             if self.soldier_positions[source] >= soldier_count:
                 # move soldiers
-                logging.info(f"destination {destination} soldier_count {soldier_count}")
+                logging.info(
+                    f"destination {destination} soldier_count {soldier_count}")
 
                 self.soldier_positions[source] -= soldier_count
-                if destination in self.soldier_positions:
-                    self.soldier_positions[destination] += soldier_count
-                else:
-                    self.soldier_positions[destination] = soldier_count
+                self.increase_soldiers_in_tile(destination, soldier_count)
             else:
                 logging.error("Not enough soldiers")

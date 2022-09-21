@@ -21,21 +21,22 @@ async def handle_incoming(websocket, game: Game, player: int):
     async for message in websocket:
         event = json.loads(message)
 
+        player_id = event["player_id"]
+        hex_id = event["hex_id"]
+
         if event["type"] == "claim":
-            claiming_player_id = event["player_id"]
-            claimed_tile_id = event["hex_id"]
-            game.players[claiming_player_id].try_to_claim_tile(game.tiles[claimed_tile_id])
+            game.players[player_id].try_to_claim_tile(game.tiles[hex_id])
         if event["type"] == "build":
             # TODO implement
             logging.error("Not implemented yet")
+        if event["type"] == "recruit":
+            game.players[player_id].recruit(game.tiles[hex_id])
         if event["type"] == "move":
             print(f"MOVE EVENT {message}")
-            player_id = event["player_id"]
-            source_id = event["hex_id"]
             direction = event["direction"]
             soldier_count = event["count"]
 
-            game.handle_soldier_moves(player_id, source_id, direction, soldier_count)
+            game.handle_soldier_moves(player_id, hex_id, direction, soldier_count)
         else:
             logging.error(event)
 
