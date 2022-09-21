@@ -55,18 +55,26 @@ class Player():
 
         return False
 
-    def try_to_claim_tile(self, claimed_tile: Tile) -> bool:
-        """Returns true if player claimed tile, false if he can not"""
+    def check_if_can_claim(self, claimed_tile: Tile) -> bool:
+        """Returns true if player is able to claim tile, false if he can not"""
 
         # check if player has enough money, doesn't already have this tile, has soldiers on this tile
         # and borders this tile
         if (COSTS["claim"] <= self.money and claimed_tile not in self.owned_tiles and
                 self.check_if_tile_neighbors_any(claimed_tile) and claimed_tile in self.soldier_positions):
-            self.money -= COSTS["claim"]
-            self.owned_tiles.append(claimed_tile)
             return True
         else:
             return False
+
+    def claim(self, claimed_tile: Tile):
+        self.money -= COSTS["claim"]
+        self.owned_tiles.append(claimed_tile)
+
+    def lose_claim(self, tile: Tile):
+        self.owned_tiles.remove(tile)
+
+        if tile == self.home_tile:
+            self.lose_game()
 
     def build(self, target_tile: Tile, building: str) -> bool:
         # check if player owns tile and has enough money and building isn't already built
@@ -84,6 +92,13 @@ class Player():
             self.soldier_positions[target_tile] += soldier_count
         else:
             self.soldier_positions[target_tile] = soldier_count
+
+    def decrease_soldiers_in_tile(self, target_tile: Tile, soldier_count: int) -> None:
+        if target_tile in self.soldier_positions:
+            self.soldier_positions[target_tile] -= soldier_count
+            if self.soldier_positions[target_tile] < 1:
+                # if no soldiers are in tile, don't store it
+                self.soldier_positions.pop(target_tile)
 
     def recruit(self, target_tile: Tile) -> bool:
         """Returns true if player recruited soldiers in tile, false if he can not"""
@@ -107,3 +122,8 @@ class Player():
                 self.increase_soldiers_in_tile(destination, soldier_count)
             else:
                 logging.error("Not enough soldiers")
+
+    def lose_game(self):
+        self.money = 0
+        self.soldier_positions.clear()
+        print(f"Player {self.id} lost the game")

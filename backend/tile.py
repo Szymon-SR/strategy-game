@@ -5,7 +5,7 @@ from math import floor, ceil
 from dataclasses import dataclass
 
 NUMBER_OF_TILES_IN_ROW = 8
-BASE_INCOME = 0.5
+BASE_INCOME = 5
 BASE_DEFENSIVENESS = 1
 
 DIRECTIONS = {

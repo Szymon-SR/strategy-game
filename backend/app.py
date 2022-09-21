@@ -25,7 +25,7 @@ async def handle_incoming(websocket, game: Game, player: int):
         hex_id = event["hex_id"]
 
         if event["type"] == "claim":
-            game.players[player_id].try_to_claim_tile(game.tiles[hex_id])
+            game.handle_claims(player_id, hex_id)
         if event["type"] == "build":
             building = event["building"]
             game.players[player_id].build(game.tiles[hex_id], building)
