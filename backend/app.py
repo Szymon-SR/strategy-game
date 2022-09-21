@@ -27,8 +27,8 @@ async def handle_incoming(websocket, game: Game, player: int):
         if event["type"] == "claim":
             game.players[player_id].try_to_claim_tile(game.tiles[hex_id])
         if event["type"] == "build":
-            # TODO implement
-            logging.error("Not implemented yet")
+            building = event["building"]
+            game.players[player_id].build(game.tiles[hex_id], building)
         if event["type"] == "recruit":
             game.players[player_id].recruit(game.tiles[hex_id])
         if event["type"] == "move":
@@ -68,6 +68,7 @@ async def send_game_state(game: Game, connected):
             "incomes": [player0.income, player1.income],
             "owned_tiles": [player1owned, player2owned],
             "tile_incomes": [tile.income for tile in game.tiles],
+            "tile_defenses": [tile.defensiveness for tile in game.tiles],
             "soldier_positions": [player0.soldier_positions_ints(), player1.soldier_positions_ints()],
         }
 

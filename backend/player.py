@@ -68,6 +68,17 @@ class Player():
         else:
             return False
 
+    def build(self, target_tile: Tile, building: str) -> bool:
+        # check if player owns tile and has enough money and building isn't already built
+        if (COSTS[building] <= self.money and target_tile in self.owned_tiles and
+                building not in target_tile.buildings):
+            self.money -= COSTS[building]
+            target_tile.add_building(building)
+            return True
+        else:
+            return False
+
+
     def increase_soldiers_in_tile(self, target_tile: Tile, soldier_count: int) -> None:
         if target_tile in self.soldier_positions:
             self.soldier_positions[target_tile] += soldier_count

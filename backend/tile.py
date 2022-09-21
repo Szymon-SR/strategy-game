@@ -6,6 +6,7 @@ from dataclasses import dataclass
 
 NUMBER_OF_TILES_IN_ROW = 8
 BASE_INCOME = 0.5
+BASE_DEFENSIVENESS = 1
 
 DIRECTIONS = {
     "topleft": [0, -1, 1],
@@ -44,10 +45,29 @@ class Tile:
 
     def __init__(self, id: int):
         self.id = id
-        self.income = BASE_INCOME
+        self.income_multiplier = 1
+        self.defensiveness_multiplier = 1
         self.coordinates = calculate_coordinates(id)
+        self.buildings = []
 
         # print(f"THIS IS TILE{self.id} {self.income} {self.coordinates}")
+
+    @property
+    def income(self):
+        return BASE_INCOME * self.income_multiplier
+
+    @property
+    def defensiveness(self):
+        return BASE_DEFENSIVENESS * self.defensiveness_multiplier
+
+    def add_building(self, building: str) -> None:
+        self.buildings.append(building)
+
+        if building == "windmill":
+            self.income_multiplier += 0.5
+        if building == "tower":
+            self.defensiveness_multiplier += 0.5
+
 
     def check_if_neighbor(self, other_tile: Tile) -> bool:
         deltas = [self.coordinates.q - other_tile.coordinates.q,

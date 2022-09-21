@@ -25,6 +25,7 @@ function Game(props) {
     incomes: [0, 0],
     owned_tiles: [[], []],
     tile_incomes: [],
+    tile_defenses: [],
     soldier_positions: [],
   });
 
@@ -145,6 +146,7 @@ function Game(props) {
           anySelected={selected.anySelected}
           selectedId={selected.lastSelected}
           selectedIncome={gameState.tile_incomes[selected.lastSelected]}
+          selectedDefensiveness={gameState.tile_defenses[selected.lastSelected]}
           handlePlayerActions={handlePlayerActions}
         />
       </SelectedDispatch.Provider>

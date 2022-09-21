@@ -17,6 +17,7 @@ function FocusMenu(props) {
     child = <HexAction
       selectedId={props.selectedId}
       selectedIncome={props.selectedIncome}
+      selectedDefensiveness={props.selectedDefensiveness}
       handlePlayerActions={props.handlePlayerActions}
     />
   }
@@ -48,6 +49,7 @@ function HexAction(props) {
         <TileInfo
           selectedId={props.selectedId}
           selectedIncome={props.selectedIncome}
+          selectedDefensiveness={props.selectedDefensiveness}
         />
       </Row>
       <Row>
@@ -76,6 +78,10 @@ function TileInfo(props) {
         <tr>
           <td>Income from this tile</td>
           <td>{props.selectedIncome}</td>
+        </tr>
+        <tr>
+          <td>Defense of this tile</td>
+          <td>{props.selectedDefensiveness}</td>
         </tr>
       </tbody>
     </Table>
@@ -127,7 +133,7 @@ function ActionCard(props) {
   let imageSrc = "./images/" + props.type + ".png"
 
   const descriptions = {
-    "Tower": "Looks cool, will do something I guess",
+    "Tower": "Increases defense in tile",
     "Windmill": "Increases income in tile by 50%",
     "Claim": "Add this tile to your kingdom",
     "Recruit": "Train new soldiers here",
