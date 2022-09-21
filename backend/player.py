@@ -70,11 +70,15 @@ class Player():
     def move_soldiers(self, source: Tile, destination: Tile, soldier_count: int):
         """This already assumes that no other player has his troops in destination"""
 
-        if self.soldier_positions[source] >= soldier_count:
-            # move soldiers
-            logging.info(f"destination {destination} soldier_count {soldier_count}")
+        if source in self.soldier_positions:
+            if self.soldier_positions[source] >= soldier_count:
+                # move soldiers
+                logging.info(f"destination {destination} soldier_count {soldier_count}")
 
-            # self.soldier_positions[source] -= soldier_count
-            # self.soldier_positions[destination] += soldier_count
-        else:
-            logging.error("Not enough soldiers")
+                self.soldier_positions[source] -= soldier_count
+                if destination in self.soldier_positions:
+                    self.soldier_positions[destination] += soldier_count
+                else:
+                    self.soldier_positions[destination] = soldier_count
+            else:
+                logging.error("Not enough soldiers")

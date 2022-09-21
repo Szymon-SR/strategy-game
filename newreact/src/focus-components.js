@@ -156,11 +156,11 @@ function ActionCard(props) {
 }
 
 function Movement(props) {
-  const [moveCount, setMoveCount] = useState(0);
+  const [moveCount, setMoveCount] = useState(1);
   const [direction, setDirection] = useState("topleft");
 
   function decreaseCount() {
-    if (moveCount > 0) {
+    if (moveCount > 1) {
       setMoveCount(moveCount - 1);
     }
   }

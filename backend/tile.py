@@ -1,11 +1,20 @@
 from __future__ import annotations
 
+from typing import List
 from math import floor, ceil
 from dataclasses import dataclass
 
 NUMBER_OF_TILES_IN_ROW = 8
 BASE_INCOME = 0.5
 
+DIRECTIONS = {
+    "topleft": [0, -1, 1],
+    "topright": [1, -1, 0],
+    "left": [-1, 0, 1],
+    "right": [1, 0, -1],
+    "bottomleft": [-1, 1, 0],
+    "bottomright": [0, 1, -1],
+}
 
 @dataclass
 class CubeCoordinates:
@@ -38,7 +47,7 @@ class Tile:
         self.income = BASE_INCOME
         self.coordinates = calculate_coordinates(id)
 
-        print(f"THIS IS TILE{self.id} {self.income} {self.coordinates}")
+        # print(f"THIS IS TILE{self.id} {self.income} {self.coordinates}")
 
     def check_if_neighbor(self, other_tile: Tile) -> bool:
         deltas = [self.coordinates.q - other_tile.coordinates.q,
@@ -52,3 +61,12 @@ class Tile:
         neighbors_deltas = [-1, 0, 1]
 
         return sorted(deltas) == neighbors_deltas
+
+    def find_neighbor(self, direction: str) -> List[int]:
+        """Return coordinates of tile towards some direction from self"""
+        deltas = DIRECTIONS[direction]
+        target_q = self.coordinates.q + deltas[0]
+        target_r = self.coordinates.r + deltas[1]
+        target_s = self.coordinates.s + deltas[2]
+
+        return [target_q, target_r, target_s]

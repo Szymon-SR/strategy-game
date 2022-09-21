@@ -18,17 +18,28 @@ class Game():
         for player in self.players:
             player.earn_income()
 
-    def handle_soldier_moves(self, player_id: int, source_id: int, direction: str, soldier_count: int):
+    def handle_soldier_moves(self, player_id: int, source_id: int, direction: str, soldier_count: int) -> bool:
+        source_tile = self.tiles[source_id]
+        destination_coordinates = source_tile.find_neighbor(direction)
+        destination_tile = None
 
-        # calculate id of destination tile
-        destination_id = 5  # TODO implement
+        for tile in self.tiles:
+            # find tile with searched coordinates
+            coords = [tile.coordinates.q, tile.coordinates.r, tile.coordinates.s]
 
+            if coords == destination_coordinates:
+                destination_tile = tile
 
-        # check if some other player has soldiers there
-        for other_player in self.players:
-            if other_player.id != player_id and other_player.soldier_positions[self.tiles[destination_id]]:
-                # TODO fight
-                pass
-            else:
-                # no fight, can just move
-                self.players[player_id].move_soldiers(self.tiles[source_id], self.tiles[destination_id], soldier_count)
+        if destination_tile:
+            # tile is valid
+            for other_player in self.players:
+                if other_player.id != player_id and destination_tile in other_player.soldier_positions:
+                    # TODO fight
+                    print("fight")
+                    return True
+            
+            # no fight, can just move
+            self.players[player_id].move_soldiers(source_tile, destination_tile, soldier_count)
+        else:
+            # tile is invalid
+            return False

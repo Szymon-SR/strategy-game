@@ -7,7 +7,10 @@ import secrets
 from game_state import Game
 
 import logging
-logging.basicConfig(format="%(message)s", level=logging.DEBUG)
+logging.basicConfig(format="%(message)s", level=logging.ERROR)
+
+logger = logging.getLogger('websockets.server')
+logger.setLevel(logging.ERROR)
 
 # set of all games
 JOIN = {}
@@ -23,8 +26,10 @@ async def handle_incoming(websocket, game: Game, player: int):
             claimed_tile_id = event["hex_id"]
             game.players[claiming_player_id].try_to_claim_tile(game.tiles[claimed_tile_id])
         if event["type"] == "build":
+            # TODO implement
             logging.error("Not implemented yet")
         if event["type"] == "move":
+            print(f"MOVE EVENT {message}")
             player_id = event["player_id"]
             source_id = event["hex_id"]
             direction = event["direction"]
@@ -37,8 +42,16 @@ async def handle_incoming(websocket, game: Game, player: int):
 async def send_game_state(game: Game, connected):
     # OUT
     """Send current game state to all connected clients"""
+
+    # every x cycles, game will run tick / new day will come (state will be sent more often)
+    TICK_FREQUENCY = 5  
+    tick_counter = 0
+
     while True:
-        game.run_tick()
+        tick_counter += 1
+        if tick_counter == TICK_FREQUENCY:
+            tick_counter = 0
+            game.run_tick()
 
         player0 = game.players[0]
         player1 = game.players[1]
@@ -59,7 +72,7 @@ async def send_game_state(game: Game, connected):
 
         websockets.broadcast(connected, json.dumps(game_state))
 
-        await asyncio.sleep(1)  # TODO adjust update time
+        await asyncio.sleep(0.2)  # TODO adjust update time
 
 
 async def start(websocket):
@@ -168,10 +181,3 @@ if __name__ == "__main__":
     # creates an asyncio event loop, runs the main()
     # coroutine, and shuts down the loop.
     asyncio.run(main())
-
-"""
-How to listen and send messages at the same time (send a message every x seconds even if we dont get any)
-
-I have the solution in dev/websocket_client_server
-
-"""
