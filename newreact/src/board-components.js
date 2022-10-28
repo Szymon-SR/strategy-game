@@ -1,9 +1,6 @@
 import React, { useContext } from "react"
 import { playerColors, SelectedDispatch } from "./App.js"
 
-import Table from 'react-bootstrap/Table';
-import Badge from 'react-bootstrap/Badge';
-
 // const NUMBER_OF_PLAYERS = 2
 
 // All components in the Center panel
@@ -13,7 +10,7 @@ function CenterPanel(props) {
     <div
       className="center-panel"
     >
-      <TopMenu
+      <TopBar
         day={props.day}
         balance={props.balance}
         income={props.income}
@@ -28,33 +25,31 @@ function CenterPanel(props) {
   )
 }
 
-function TopMenu(props) {
+function TopBar(props) {
   // menu which displays basic data about player's country
   return (
-    <Table striped="columns">
-      <tbody>
-        <tr>
-          <td>
-            Day
-          </td>
-          <td>
-            {props.day}
-          </td>
-          <td>
-            Money
-          </td>
-          <td>
-            {props.balance}
-          </td>
-          <td>
-            Income
-          </td>
-          <td>
-            {props.income}
-          </td>
-        </tr>
-      </tbody>
-    </Table>
+    <table>
+      <tr>
+        <td>
+          Day
+        </td>
+        <td>
+          {props.day}
+        </td>
+        <td>
+          Money
+        </td>
+        <td>
+          {props.balance}
+        </td>
+        <td>
+          Income
+        </td>
+        <td>
+          {props.income}
+        </td>
+      </tr>
+    </table>
   )
 }
 
@@ -130,10 +125,8 @@ function Hex(props) {
   //   badgeComponent = <Badge pill as="p"> {props.soldierCount} </Badge>
   // }
 
-  const badgeColors = ["success", "danger", "primary"];
-  let badgeColor = badgeColors[props.soldierOwnerId]
-
   const ownerColor = playerColors[props.ownerId];
+  const soldierOwnerColor = playerColors[props.soldierOwnerId];
 
   // selecting / unselecting
   const dispatch = useContext(SelectedDispatch);
@@ -143,13 +136,30 @@ function Hex(props) {
   }
 
   return (
+
     <div
       className={props.isHome ? "hex " + ownerColor + " home" : "hex " + ownerColor}
       onClick={handleHexClick} // this function can be passed if we want to change parent
     >
-      <Badge pill as="p" bg={badgeColor}> {props.soldierCount} </Badge>
+      <SoldierBadge
+        color={soldierOwnerColor}
+        soldierCount={props.soldierCount}
+      />
     </div>
   );
+}
+
+function SoldierBadge(props) {
+  if (props.color === "neutral") {
+    return (
+      <p></p>
+    );
+  }
+  else {
+    return (
+      <p className={"badge-" + props.color}>{props.soldierCount}</p>
+    );
+  }
 }
 
 export { CenterPanel };

@@ -17,10 +17,33 @@
     width: 400px;
 }
 
+.badge-red {
+    display: inline-block;
+    vertical-align: top;
+    background-color: lightcoral;
+}
+
+.badge-neutral {
+    background-color: lightgreen;
+}
+
+.badge-blue {
+    background-color: lightblue;
+}
+
 .center-panel {
     display: flex;
     flex-direction: column;
+    /*background-color: #EDEEC0;*/
 }
+
+table, th, td {
+    background-color: #EDEEC0;
+    border: 5px solid #F4A698;
+    height: 45px;
+    text-align: center;
+}
+
 
 .board {
     width: 900px;
@@ -64,15 +87,15 @@
 
 /* Hex colors based on who owns them*/
 .neutral {
-    background-color: yellowgreen;
+    background-color: #AAAE7F;
 }
 
 .red {
-    background-color: red;
+    background-color: #942911;
 }
 
 .blue {
-    background-color: blue;
+    background-color: #114B5F;
 }
 
 .hex:hover {

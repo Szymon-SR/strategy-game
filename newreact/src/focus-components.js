@@ -4,7 +4,6 @@ import { SelectedDispatch } from "./App.js"
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
@@ -37,7 +36,7 @@ function FocusMenu(props) {
 function BaseAction(props) {
   return (
     <div>
-      BaseAc
+      Click any tile to see details
     </div>
   )
 }
@@ -69,8 +68,7 @@ function HexAction(props) {
 
 function TileInfo(props) {
   return (
-    <Table bordered="true">
-      <tbody>
+    <table>
         <tr>
           <td>Selected Tile</td>
           <td>{props.selectedId}</td>
@@ -83,8 +81,7 @@ function TileInfo(props) {
           <td>Defense of this tile</td>
           <td>{props.selectedDefensiveness}</td>
         </tr>
-      </tbody>
-    </Table>
+    </table>
   )
 }
 

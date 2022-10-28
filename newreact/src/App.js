@@ -1,9 +1,8 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 
+import { BaseMenu } from './info-components.js';
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
-
-import Table from 'react-bootstrap/Table';
 
 const playerColors = ["neutral", "red", "blue"]
 
@@ -154,63 +153,6 @@ function Game(props) {
   );
 }
 
-// ==============================================
-
-function BaseMenu(props) {
-  return (
-    <div
-      className="base-menu"
-    >
-      <Table>
-        <tbody>
-          <tr>
-            <td>Your id</td>
-            <td>{props.playerIndex}</td>
-          </tr>
-          <tr>
-            <td>Your color</td>
-            <td>{playerColors[props.playerIndex + 1]}</td>
-          </tr>
-          <tr>
-            <td>Invite link</td>
-            <td>{props.inviteLink}</td>
-          </tr>
-          <tr>
-            <td>Scores</td>
-            <td>TODO</td>
-          </tr>
-        </tbody>
-      </Table>
-      {/* <PlayerInfo playerIndex={props.playerIndex} />
-        <RoomInfo inviteLink={props.inviteLink} />
-        <ScoreInfo /> */}
-    </div>
-  )
-}
-
-// function PlayerInfo(props) {
-//   return (
-//     <div>
-//       Your id: {props.playerIndex}
-//     </div>
-//   )
-// }
-
-// function RoomInfo(props) {
-//   return (
-//     <div>
-//       {props.inviteLink}
-//     </div>
-//   )
-// }
-
-// function ScoreInfo(props) {
-//   return (
-//     <div>
-//       Not yet
-//     </div>
-//   )
-// }
 
 
 export { playerColors, SelectedDispatch, Game };  
