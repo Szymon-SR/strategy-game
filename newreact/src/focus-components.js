@@ -37,7 +37,7 @@ function FocusMenu(props) {
 function BaseAction(props) {
   return (
     <div>
-      BaseAc
+      Click any tile to select it and see options
     </div>
   )
 }
