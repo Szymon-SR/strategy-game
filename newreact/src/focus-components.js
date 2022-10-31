@@ -5,7 +5,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 
 //Right
@@ -69,6 +68,7 @@ function HexAction(props) {
 function TileInfo(props) {
   return (
     <table>
+      <tbody>
         <tr>
           <td>Selected Tile</td>
           <td>{props.selectedId}</td>
@@ -81,48 +81,34 @@ function TileInfo(props) {
           <td>Defense of this tile</td>
           <td>{props.selectedDefensiveness}</td>
         </tr>
+      </tbody>
     </table>
   )
 }
 
 function Actions(props) {
   return (
-    <Container>
-      <Row className="mb-3">
-        <Col>
-          <ActionCard
-            type="Claim"
-            handlePlayerActions={() => props.handlePlayerActions({ type: "claim" })}
-          />
-        </Col>
-        <Col>
-          <ActionCard
-            type="Recruit"
-            handlePlayerActions={() => props.handlePlayerActions({ type: "recruit" })}
-          />
-        </Col>
-      </Row>
-      <Row className="mb-3">
-        <Col>
-          <ActionCard
-            type="Tower"
-            handlePlayerActions={() => props.handlePlayerActions({ type: "build", building: "tower" })}
-          />
-        </Col>
-        <Col>
-          <ActionCard
-            type="Windmill"
-            handlePlayerActions={() => props.handlePlayerActions({ type: "build", building: "windmill" })}
-          />
-        </Col>
-      </Row>
-      <Row className="mb-3">
-        <Movement
-          handlePlayerActions={props.handlePlayerActions}
-        />
-      </Row>
-    </Container>
-    //<Button onClick={() => console.log("xd")}>Attack</Button>
+    <div className="action-container">
+      <ActionCard
+        type="Claim"
+        handlePlayerActions={() => props.handlePlayerActions({ type: "claim" })}
+      />
+      <ActionCard
+        type="Recruit"
+        handlePlayerActions={() => props.handlePlayerActions({ type: "recruit" })}
+      />
+      <ActionCard
+        type="Tower"
+        handlePlayerActions={() => props.handlePlayerActions({ type: "build", building: "tower" })}
+      />
+      <ActionCard
+        type="Windmill"
+        handlePlayerActions={() => props.handlePlayerActions({ type: "build", building: "windmill" })}
+      />
+      <Movement
+        handlePlayerActions={props.handlePlayerActions}
+      />
+    </div>
   )
 }
 
@@ -133,7 +119,7 @@ function ActionCard(props) {
     "Tower": "Increases defense in tile",
     "Windmill": "Increases income in tile by 50%",
     "Claim": "Add this tile to your kingdom",
-    "Recruit": "Train new soldiers here",
+    "Recruit": "Train one new soldier here",
   };
   const costs = {
     "Tower": "Build for 150",
@@ -143,18 +129,14 @@ function ActionCard(props) {
   };
 
   return (
-    <Card>
-      <Card.Img variant="top" src={require(`${imageSrc}`)} height={"100px"} />
-      <Card.Body>
-        <Card.Title>{props.type}</Card.Title>
-        <Card.Text>
-          {descriptions[props.type]}
-        </Card.Text>
-        <Button variant="primary" onClick={props.handlePlayerActions}>
-          {costs[props.type]}
-        </Button>
-      </Card.Body>
-    </Card>
+    <div className="action-card">
+      <img alt={props.type} className="action-img" src={require(`${imageSrc}`)} height={"100px"} />
+      <div className="action-texts">
+        <h4 className="action-title">{props.type}</h4>
+        <p className="action-description">{descriptions[props.type]}</p>
+      </div>
+      <button className="action-button" onClick={props.handlePlayerActions}>{costs[props.type]}</button>
+    </div>
   )
 }
 
@@ -178,7 +160,7 @@ function Movement(props) {
     <Container>
       <Row className="mb-3">
         <Col>
-          <Directions 
+          <Directions
             setDirection={setDirection}
           />
         </Col>
@@ -193,7 +175,7 @@ function Movement(props) {
         </Col>
       </Row>
       <Row>
-        <Button onClick={() => props.handlePlayerActions({type: "move", direction: direction, count: moveCount})}>
+        <Button onClick={() => props.handlePlayerActions({ type: "move", direction: direction, count: moveCount })}>
           Move soldiers
         </Button>
       </Row>
@@ -242,9 +224,9 @@ function Unselect(props) {
   }
 
   return (
-    <Button onClick={handleClick}>
+    <button className="unselect" onClick={handleClick}>
       Close
-    </Button>
+    </button>
   )
 }
 

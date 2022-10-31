@@ -29,26 +29,28 @@ function TopBar(props) {
   // menu which displays basic data about player's country
   return (
     <table>
-      <tr>
-        <td>
-          Day
-        </td>
-        <td>
-          {props.day}
-        </td>
-        <td>
-          Money
-        </td>
-        <td>
-          {props.balance}
-        </td>
-        <td>
-          Income
-        </td>
-        <td>
-          {props.income}
-        </td>
-      </tr>
+      <tbody>
+        <tr>
+          <td>
+            Day
+          </td>
+          <td>
+            {props.day}
+          </td>
+          <td>
+            Money
+          </td>
+          <td>
+            {props.balance}
+          </td>
+          <td>
+            Income
+          </td>
+          <td>
+            {props.income}
+          </td>
+        </tr>
+      </tbody>
     </table>
   )
 }
@@ -150,7 +152,7 @@ function Hex(props) {
 }
 
 function SoldierBadge(props) {
-  if (props.color === "neutral") {
+  if (props.soldierCount === 0) {
     return (
       <p></p>
     );

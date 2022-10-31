@@ -15,11 +15,10 @@
 
 .focus-menu {
     width: 400px;
+    background-color: #EDEEC0;
 }
 
 .badge-red {
-    display: inline-block;
-    vertical-align: top;
     background-color: lightcoral;
 }
 
@@ -37,7 +36,9 @@
     /*background-color: #EDEEC0;*/
 }
 
-table, th, td {
+table,
+th,
+td {
     background-color: #EDEEC0;
     border: 5px solid #F4A698;
     height: 45px;
@@ -68,6 +69,7 @@ table, th, td {
     margin: var(--m);
     height: calc(var(--s)*1.1547);
     display: inline-block;
+    vertical-align: top;
     font-size: initial;
     clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
     margin-bottom: calc(var(--m) - var(--s)*0.2885);
@@ -117,6 +119,33 @@ table, th, td {
     display: none;
 }
 
-.clicked {
-    box-shadow: inset 0px 0px 0px 10px green;
+.action-card {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.action-texts {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+}
+
+.action-button, .unselect {
+    width: 25%;
+    height: 90%;
+    letter-spacing: 2px;
+    text-decoration: none;
+    background-color: #F4A698;
+    text-transform: uppercase;
+    color: #000;
+    cursor: pointer;
+    border: 3px solid;
+    padding: 0.25em 0.5em;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
