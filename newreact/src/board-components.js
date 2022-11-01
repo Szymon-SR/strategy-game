@@ -5,7 +5,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { SelectedDispatch } from "./App.js"
 import { playerColors, dragTypes } from "./constants.js"
 
-// const NUMBER_OF_PLAYERS = 2
+require('react-dom');
+window.React2 = require('react');
+console.log(window.React1 === window.React2);
 
 // All components in the Center panel
 
@@ -19,12 +21,14 @@ function CenterPanel(props) {
         balance={props.balance}
         income={props.income}
       />
+      <DndProvider backend={HTML5Backend}>
         <Board
           numberOfTiles={props.numberOfTiles}
           home_tiles={props.home_tiles}
           owned_tiles={props.owned_tiles}
           soldierPositions={props.soldierPositions}
         />
+      </DndProvider>
     </div>
   )
 }
@@ -147,7 +151,7 @@ function Tile(props) {
 }
 
 function Hex(props) {
-  const [{isDragging}, drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: dragTypes.HEX,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
@@ -157,7 +161,7 @@ function Hex(props) {
   return (
 
     <div
-      // ref={drag}
+      ref={drag}
       className={props.isHome ? "hex " + props.ownerColor + " home" : "hex " + props.ownerColor}
     >
       <SoldierBadge
