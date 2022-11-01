@@ -1,11 +1,6 @@
 import React, { useContext, useState } from "react"
 import { SelectedDispatch } from "./App.js"
 
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Badge from 'react-bootstrap/Badge';
 
 //Right
 function FocusMenu(props) {
@@ -42,25 +37,27 @@ function BaseAction(props) {
 
 function HexAction(props) {
   return (
-    <Container>
-      <Row>
-        <TileInfo
-          selectedId={props.selectedId}
-          selectedIncome={props.selectedIncome}
-          selectedDefensiveness={props.selectedDefensiveness}
-        />
-      </Row>
-      <Row>
-        <Actions
-          handlePlayerActions={props.handlePlayerActions}
-        />
-      </Row>
-      <Row>
-        <Unselect
-          selectedId={props.selectedId}
-        />
-      </Row>
-    </Container>
+    <table>
+      <tbody>
+        <tr>
+          <TileInfo
+            selectedId={props.selectedId}
+            selectedIncome={props.selectedIncome}
+            selectedDefensiveness={props.selectedDefensiveness}
+          />
+        </tr>
+        <tr>
+          <Actions
+            handlePlayerActions={props.handlePlayerActions}
+          />
+        </tr>
+        <tr>
+          <Unselect
+            selectedId={props.selectedId}
+          />
+        </tr>
+      </tbody>
+    </table>
 
   )
 }
@@ -157,61 +154,65 @@ function Movement(props) {
   }
 
   return (
-    <Container>
-      <Row className="mb-3">
-        <Col>
-          <Directions
-            setDirection={setDirection}
-          />
-        </Col>
-        <Col>
-          <Button onClick={() => increaseCount()}>
-            +
-          </Button>
-          <Button onClick={() => decreaseCount()}>
-            -
-          </Button>
-          <Badge pill> {moveCount} </Badge>
-        </Col>
-      </Row>
-      <Row>
-        <Button onClick={() => props.handlePlayerActions({ type: "move", direction: direction, count: moveCount })}>
-          Move soldiers
-        </Button>
-      </Row>
-    </Container>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <Directions
+              setDirection={setDirection}
+            />
+          </td>
+          <td>
+            <button onClick={() => increaseCount()}>
+              +
+            </button>
+            <button onClick={() => decreaseCount()}>
+              -
+            </button>
+            <badge> {moveCount} </badge>
+          </td>
+        </tr>
+        <tr>
+          <button onClick={() => props.handlePlayerActions({ type: "move", direction: direction, count: moveCount })}>
+            Move soldiers
+          </button>
+        </tr>
+      </tbody>
+    </table>
   )
 }
 
 function Directions(props) {
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Button onClick={() => props.setDirection("topleft")}>⇖</Button>
-        </Col>
-        <Col>
-          <Button onClick={() => props.setDirection("topright")}>⇗</Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Button onClick={() => props.setDirection("left")}>⇐</Button>
-        </Col>
-        <Col>
-          <Button onClick={() => props.setDirection("right")}>⇒</Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Button onClick={() => props.setDirection("bottomleft")}>⇙</Button>
-        </Col>
-        <Col>
-          <Button onClick={() => props.setDirection("bottomright")}>⇘</Button>
-        </Col>
-      </Row>
-    </Container>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <button onClick={() => props.setDirection("topleft")}>⇖</button>
+          </td>
+          <td>
+            <button onClick={() => props.setDirection("topright")}>⇗</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button onClick={() => props.setDirection("left")}>⇐</button>
+          </td>
+          <td>
+            <button onClick={() => props.setDirection("right")}>⇒</button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button onClick={() => props.setDirection("bottomleft")}>⇙</button>
+          </td>
+          <td>
+            <button onClick={() => props.setDirection("bottomright")}>⇘</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   )
 }
 

@@ -1,5 +1,9 @@
 import React, { useContext } from "react"
-import { playerColors, SelectedDispatch } from "./App.js"
+import { DndProvider, useDrag } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
+import { SelectedDispatch } from "./App.js"
+import { playerColors, dragTypes } from "./constants.js"
 
 // const NUMBER_OF_PLAYERS = 2
 
@@ -15,12 +19,12 @@ function CenterPanel(props) {
         balance={props.balance}
         income={props.income}
       />
-      <Board
-        numberOfTiles={props.numberOfTiles}
-        home_tiles={props.home_tiles}
-        owned_tiles={props.owned_tiles}
-        soldierPositions={props.soldierPositions}
-      />
+        <Board
+          numberOfTiles={props.numberOfTiles}
+          home_tiles={props.home_tiles}
+          owned_tiles={props.owned_tiles}
+          soldierPositions={props.soldierPositions}
+        />
     </div>
   )
 }
@@ -97,7 +101,7 @@ function Map(props) {
 
   // create all hex tiles
   const hexItems = hexIds.map((id) =>
-    <Hex
+    <Tile
       key={id.toString()}
       hexId={id}
       isHome={props.home_tiles.includes(id)} // it is home or it is not
@@ -116,17 +120,7 @@ function Map(props) {
   )
 }
 
-function Hex(props) {
-  // let badgeComponent;
-
-  // if (props.soldierCount > 0) {
-  //   const bgs = ["success", "danger", "primary"];
-  //   badgeComponent = <Badge pill as="p" bg={bgs[props.soldierOwnerId]}> {props.soldierCount} </Badge>
-  // }
-  // else {
-  //   badgeComponent = <Badge pill as="p"> {props.soldierCount} </Badge>
-  // }
-
+function Tile(props) {
   const ownerColor = playerColors[props.ownerId];
   const soldierOwnerColor = playerColors[props.soldierOwnerId];
 
@@ -140,11 +134,34 @@ function Hex(props) {
   return (
 
     <div
-      className={props.isHome ? "hex " + ownerColor + " home" : "hex " + ownerColor}
       onClick={handleHexClick} // this function can be passed if we want to change parent
     >
+      <Hex
+        isHome={props.isHome}
+        ownerColor={ownerColor}
+        soldierOwnerColor={soldierOwnerColor}
+        soldierCount={props.soldierCount}
+      />
+    </div>
+  );
+}
+
+function Hex(props) {
+  const [{isDragging}, drag] = useDrag(() => ({
+    type: dragTypes.HEX,
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
+
+  return (
+
+    <div
+      // ref={drag}
+      className={props.isHome ? "hex " + props.ownerColor + " home" : "hex " + props.ownerColor}
+    >
       <SoldierBadge
-        color={soldierOwnerColor}
+        color={props.soldierOwnerColor}
         soldierCount={props.soldierCount}
       />
     </div>

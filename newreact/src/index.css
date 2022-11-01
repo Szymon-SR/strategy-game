@@ -18,6 +18,18 @@
     background-color: #EDEEC0;
 }
 
+.badge-red,
+.badge-blue {
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE10+/Edge */
+    user-select: none;
+    /* Standard */
+}
+
 .badge-red {
     background-color: lightcoral;
 }
@@ -37,8 +49,7 @@
 }
 
 table,
-th,
-td {
+th {
     background-color: #EDEEC0;
     border: 5px solid #F4A698;
     height: 45px;
@@ -132,7 +143,8 @@ td {
     width: 25%;
 }
 
-.action-button, .unselect {
+.action-button,
+.unselect {
     width: 25%;
     height: 90%;
     letter-spacing: 2px;

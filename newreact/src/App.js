@@ -4,8 +4,6 @@ import { BaseMenu } from './info-components.js';
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
 
-const playerColors = ["neutral", "red", "blue"]
-
 // Components 
 const SelectedDispatch = React.createContext(null);
 const initialD = { anySelected: false, lastSelected: 0 };
@@ -155,4 +153,4 @@ function Game(props) {
 
 
 
-export { playerColors, SelectedDispatch, Game };  
+export { SelectedDispatch, Game };  

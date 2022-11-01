@@ -1,5 +1,5 @@
 import React from 'react';
-import { playerColors } from "./App.js"
+import { playerColors } from "./constants.js"
 
 
 function BaseMenu(props) {
