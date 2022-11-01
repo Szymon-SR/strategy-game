@@ -69,6 +69,7 @@ async def send_game_state(game: Game, connected):
             "owned_tiles": [player1owned, player2owned],
             "tile_incomes": [tile.income for tile in game.tiles],
             "tile_defenses": [tile.defensiveness for tile in game.tiles],
+            "tile_coordinates": [tile.coords_as_list for tile in game.tiles], # list of lists
             "soldier_positions": [player0.soldier_positions_ints(), player1.soldier_positions_ints()],
         }
 

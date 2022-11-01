@@ -60,6 +60,10 @@ class Tile:
     def defensiveness(self):
         return BASE_DEFENSIVENESS * self.defensiveness_multiplier
 
+    @property
+    def coords_as_list(self):
+        return [self.coordinates.q, self.coordinates.r, self.coordinates.s]
+
     def add_building(self, building: str) -> None:
         self.buildings.append(building)
 

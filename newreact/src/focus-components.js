@@ -37,28 +37,19 @@ function BaseAction(props) {
 
 function HexAction(props) {
   return (
-    <table>
-      <tbody>
-        <tr>
-          <TileInfo
-            selectedId={props.selectedId}
-            selectedIncome={props.selectedIncome}
-            selectedDefensiveness={props.selectedDefensiveness}
-          />
-        </tr>
-        <tr>
-          <Actions
-            handlePlayerActions={props.handlePlayerActions}
-          />
-        </tr>
-        <tr>
-          <Unselect
-            selectedId={props.selectedId}
-          />
-        </tr>
-      </tbody>
-    </table>
-
+    <div>
+      <TileInfo
+        selectedId={props.selectedId}
+        selectedIncome={props.selectedIncome}
+        selectedDefensiveness={props.selectedDefensiveness}
+      />
+      <Actions
+        handlePlayerActions={props.handlePlayerActions}
+      />
+      <Unselect
+        selectedId={props.selectedId}
+      />
+    </div>
   )
 }
 
@@ -169,7 +160,7 @@ function Movement(props) {
             <button onClick={() => decreaseCount()}>
               -
             </button>
-            <badge> {moveCount} </badge>
+            <p> {moveCount} </p>
           </td>
         </tr>
         <tr>

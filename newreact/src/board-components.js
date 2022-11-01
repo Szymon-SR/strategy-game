@@ -1,13 +1,8 @@
-import React, { useContext } from "react"
-import { DndProvider, useDrag } from 'react-dnd'
+import React from "react"
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
-import { SelectedDispatch } from "./App.js"
-import { playerColors, dragTypes } from "./constants.js"
-
-require('react-dom');
-window.React2 = require('react');
-console.log(window.React1 === window.React2);
+import { Tile } from './tiles.js'
 
 // All components in the Center panel
 
@@ -124,65 +119,6 @@ function Map(props) {
   )
 }
 
-function Tile(props) {
-  const ownerColor = playerColors[props.ownerId];
-  const soldierOwnerColor = playerColors[props.soldierOwnerId];
 
-  // selecting / unselecting
-  const dispatch = useContext(SelectedDispatch);
-
-  function handleHexClick() {
-    dispatch({ type: "click", clickedId: props.hexId });
-  }
-
-  return (
-
-    <div
-      onClick={handleHexClick} // this function can be passed if we want to change parent
-    >
-      <Hex
-        isHome={props.isHome}
-        ownerColor={ownerColor}
-        soldierOwnerColor={soldierOwnerColor}
-        soldierCount={props.soldierCount}
-      />
-    </div>
-  );
-}
-
-function Hex(props) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: dragTypes.HEX,
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }))
-
-  return (
-
-    <div
-      ref={drag}
-      className={props.isHome ? "hex " + props.ownerColor + " home" : "hex " + props.ownerColor}
-    >
-      <SoldierBadge
-        color={props.soldierOwnerColor}
-        soldierCount={props.soldierCount}
-      />
-    </div>
-  );
-}
-
-function SoldierBadge(props) {
-  if (props.soldierCount === 0) {
-    return (
-      <p></p>
-    );
-  }
-  else {
-    return (
-      <p className={"badge-" + props.color}>{props.soldierCount}</p>
-    );
-  }
-}
 
 export { CenterPanel };
