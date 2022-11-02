@@ -21,7 +21,9 @@ function CenterPanel(props) {
           numberOfTiles={props.numberOfTiles}
           home_tiles={props.home_tiles}
           owned_tiles={props.owned_tiles}
+          tileCoordinates={props.tileCoordinates}
           soldierPositions={props.soldierPositions}
+          playerIndex={props.playerIndex}
         />
       </DndProvider>
     </div>
@@ -67,7 +69,9 @@ function Board(props) {
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
         owned_tiles={props.owned_tiles}
+        tileCoordinates={props.tileCoordinates}
         soldierPositions={props.soldierPositions}
+        playerIndex={props.playerIndex}
       />
     </div>
   )
@@ -105,8 +109,10 @@ function Map(props) {
       hexId={id}
       isHome={props.home_tiles.includes(id)} // it is home or it is not
       ownerId={hexOwners[id]}
+      coords={props.tileCoordinates[id]}
       soldierOwnerId={soldierOwners[id]}
       soldierCount={soldierCounts[id]}
+      playerIndex={props.playerIndex}
     />
   );
 

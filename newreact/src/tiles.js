@@ -3,85 +3,122 @@ import React from 'react'
 import { useContext } from 'react'
 
 import { SelectedDispatch } from "./App.js"
-import { playerColors, dragTypes } from "./constants.js"
+import { playerColors, dragTypes, neighborsDeltas } from "./constants.js"
 
-function canMoveSoldiers() {
-    return true;    // TODO
-  }
+
+
+
+function canMoveSoldiers(srcCoords, dstCoords) {
+    // checks if two tiles are neighboring, based on
+    // cube coordinates sent from backend
+    // explanation in tile.py file
+
+    if (srcCoords === undefined || dstCoords === undefined) {
+        return false;
+    }
+
+    const deltas = [srcCoords[0] - dstCoords[0],
+    srcCoords[1] - dstCoords[1],
+    srcCoords[2] - dstCoords[2],
+    ]
+    deltas.sort()
+
+    var i = deltas.length;
+    while (i--) {
+        if (deltas[i] !== neighborsDeltas[i]) return false;
+    }
+    return true
+}
 
 function Tile(props) {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
-      accept: dragTypes.HEX,
-      canDrop: () => canMoveSoldiers(props.hexId),
-      drop: (item, monitor) => console.log("drop" + item.sourceId + " " + props.hexId),  // TODO
-      collect: monitor => ({
-        isOver: !!monitor.isOver(),
-        canDrop: !!monitor.canDrop()
-      }),
-    }), [props.hexId])
-  
+        accept: dragTypes.HEX,
+        canDrop: (item, monitor) => canMoveSoldiers(item.sourceCoords, props.coords),
+        drop: (item, monitor) => console.log("drop" + item.sourceId + " " + props.hexId),  // TODO
+        collect: monitor => ({
+            isOver: !!monitor.isOver(),
+            canDrop: !!monitor.canDrop()
+        }),
+    }), [props.coords])
+
     const ownerColor = playerColors[props.ownerId];
     const soldierOwnerColor = playerColors[props.soldierOwnerId];
-  
+
     // selecting / unselecting
     const dispatch = useContext(SelectedDispatch);
-  
+
     function handleHexClick() {
-      dispatch({ type: "click", clickedId: props.hexId });
+        dispatch({ type: "click", clickedId: props.hexId });
     }
-  
+
+    // true if and only if our player has soldiers on this tile
+    const ownSoldiers = props.soldierOwnerId === props.playerIndex + 1;
+
     return (
-      <div
-        ref={drop}
-        onClick={handleHexClick} // this function can be passed if we want to change parent
-      >
-        <Hex
-          hexId={props.hexId}
-          isHome={props.isHome}
-          ownerColor={ownerColor}
-          soldierOwnerColor={soldierOwnerColor}
-          soldierCount={props.soldierCount}
-        />
-      </div>
+        <div
+            ref={drop}
+            onClick={handleHexClick} // this function can be passed if we want to change parent
+        >
+            <Hex
+                hexId={props.hexId}
+                isHome={props.isHome}
+                ownerColor={ownerColor}
+                coords={props.coords}
+                soldierOwnerColor={soldierOwnerColor}
+                soldierCount={props.soldierCount}
+                isOver={isOver}
+                canDrop={canDrop}
+                ownSoldiers={ownSoldiers}
+            />
+
+        </div>
     );
-  }
-  
-  function Hex(props) {
+}
+
+function Hex(props) {
     const sourceId = props.hexId;
-  
+    const sourceCoords = props.coords;
+
     const [{ isDragging }, drag] = useDrag(() => ({
-      type: dragTypes.HEX,
-      item: { sourceId },
-      collect: monitor => ({
-        isDragging: !!monitor.isDragging(),
-      }),
-    }), [sourceId])
-  
+        type: dragTypes.HEX,
+        item: { sourceId, sourceCoords },
+        canDrag: () => props.ownSoldiers ,
+        collect: monitor => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }), [sourceId, sourceCoords])
+
+    const homeClass = props.isHome ? 'home' : ''
+    const canDropClass = props.canDrop ? 'can-drop' : ''
+    const classes = `hex ${props.ownerColor} ${homeClass} ${canDropClass}`
+
     return (
-  
-      <div
-        ref={drag}
-        className={props.isHome ? "hex " + props.ownerColor + " home" : "hex " + props.ownerColor}
-      >
-        <SoldierBadge
-          color={props.soldierOwnerColor}
-          soldierCount={props.soldierCount}
-        />
-      </div>
+
+        <div
+            ref={drag}
+            className={classes}
+        >
+            <SoldierBadge
+                color={props.soldierOwnerColor}
+                soldierCount={props.soldierCount}
+            />
+        </div>
     );
-  }
-  
-  function SoldierBadge(props) {
+}
+
+function SoldierBadge(props) {
     if (props.soldierCount === 0) {
-      return (
-        <p></p>
-      );
+        return (
+            <p></p>
+        );
     }
     else {
-      return (
-        <p className={"badge-" + props.color}>{props.soldierCount}</p>
-      );
+        return (
+            <p className={"badge-" + props.color}>{props.soldierCount}</p>
+        );
     }
-  }
+}
+
+
 
 export { Tile };

@@ -23,6 +23,7 @@ function Game(props) {
     owned_tiles: [[], []],
     tile_incomes: [],
     tile_defenses: [],
+    tile_coordinates: [],
     soldier_positions: [],
   });
 
@@ -137,7 +138,9 @@ function Game(props) {
           income={gameState.incomes[playerIndex]}
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
+          tileCoordinates={gameState.tile_coordinates}
           soldierPositions={gameState.soldier_positions}
+          playerIndex={playerIndex}
         />
         <FocusMenu
           anySelected={selected.anySelected}

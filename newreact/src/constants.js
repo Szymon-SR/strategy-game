@@ -4,4 +4,6 @@ const dragTypes = {
     HEX: 'hex'
 }
 
-export { playerColors, dragTypes };
+const neighborsDeltas = [-1, 0, 1]
+
+export { playerColors, dragTypes, neighborsDeltas };

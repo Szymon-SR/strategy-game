@@ -126,6 +126,13 @@ th {
     position: relative;
 }
 
+.can-drop {
+    background-image: url('images/target.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
 .hidden {
     display: none;
 }
