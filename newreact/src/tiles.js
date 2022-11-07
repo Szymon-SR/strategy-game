@@ -1,4 +1,4 @@
-import { useDrag, useDrop } from 'react-dnd'
+import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
 import React from 'react'
 import { useContext } from 'react'
 
@@ -29,12 +29,13 @@ function canMoveSoldiers(srcCoords, dstCoords) {
     }
     return true
 }
+// console.log("drop" + item.sourceId + " " + props.hexId),  // TODO
 
 function Tile(props) {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: dragTypes.HEX,
         canDrop: (item, monitor) => canMoveSoldiers(item.sourceCoords, props.coords),
-        drop: (item, monitor) => console.log("drop" + item.sourceId + " " + props.hexId),  // TODO
+        drop: (item, monitor) => props.attackPopupOn(item.sourceId, props.hexId, props.soldierCount[props.playerIndex]),
         collect: monitor => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop()
@@ -79,10 +80,10 @@ function Hex(props) {
     const sourceId = props.hexId;
     const sourceCoords = props.coords;
 
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: dragTypes.HEX,
         item: { sourceId, sourceCoords },
-        canDrag: () => props.ownSoldiers ,
+        canDrag: () => props.ownSoldiers,
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -92,17 +93,21 @@ function Hex(props) {
     const canDropClass = props.canDrop ? 'can-drop' : ''
     const classes = `hex ${props.ownerColor} ${homeClass} ${canDropClass}`
 
-    return (
+    const soldierImg = './images/soldier.jpg';
 
-        <div
-            ref={drag}
-            className={classes}
-        >
-            <SoldierBadge
-                color={props.soldierOwnerColor}
-                soldierCount={props.soldierCount}
-            />
-        </div>
+    return (
+        <>
+            <DragPreviewImage connect={preview} src={soldierImg} />
+            <div
+                ref={drag}
+                className={classes}
+            >
+                <SoldierBadge
+                    color={props.soldierOwnerColor}
+                    soldierCount={props.soldierCount}
+                />
+            </div>
+        </>
     );
 }
 
@@ -118,7 +123,5 @@ function SoldierBadge(props) {
         );
     }
 }
-
-
 
 export { Tile };

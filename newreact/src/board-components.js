@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
@@ -61,10 +61,27 @@ function TopBar(props) {
 }
 
 function Board(props) {
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [attackSource, setAttackSource] = useState(0);
+  const [attackTarget, setAttackTarget] = useState(0);
+  const [availableSoldiers, setAvailableSoldiers] = useState(0);
+
+  function popupOff() {
+    setPopupVisible(false);
+  }
+
+  function attackPopupOn(sourceId, targetId, soldierCount) {
+    setAttackSource(sourceId);
+    setAttackTarget(targetId);
+    setPopupVisible(true);
+    setAvailableSoldiers(soldierCount);
+  }
+
   return (
     <div
       className="board"
     >
+      {popupVisible ? <AttackPopup popupOff={popupOff} sourceId={attackSource} targetId={attackTarget} availableSoldiers={availableSoldiers} /> : null}
       <Map
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
@@ -72,9 +89,23 @@ function Board(props) {
         tileCoordinates={props.tileCoordinates}
         soldierPositions={props.soldierPositions}
         playerIndex={props.playerIndex}
+        attackPopupOn={attackPopupOn}
       />
     </div>
   )
+}
+
+function AttackPopup(props) {
+  return (
+    <div className="modal">
+      <div className="modal_content">
+        <span className="close" onClick={props.popupOff}>
+          &times;
+        </span>
+        <p>{props.sourceId} {props.targetId}</p>
+      </div>
+    </div>
+  );
 }
 
 function Map(props) {
@@ -113,6 +144,7 @@ function Map(props) {
       soldierOwnerId={soldierOwners[id]}
       soldierCount={soldierCounts[id]}
       playerIndex={props.playerIndex}
+      attackPopupOn={props.attackPopupOn}
     />
   );
 

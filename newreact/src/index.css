@@ -168,3 +168,32 @@ th {
     -webkit-user-select: none;
     touch-action: manipulation;
 }
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    width: 900px;
+    height: 100%;
+}
+
+.modal_content {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.close {
+    color: Black;
+    float: right;
+  }
+  
+  .close:hover {
+    color: cyan;
+    cursor: pointer;
+  }
+  
