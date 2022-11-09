@@ -98,12 +98,18 @@ function Board(props) {
 }
 
 function AttackPopup(props) {
-  const [sliderValue, setSliderValue] = useState(props.availableSoldiers);
+  const [sliderValue, setSliderValue] = useState(0);
 
   const changeSlider = (event) => {
-    setSliderValue(event.target.value);
+    setSliderValue(parseInt(event.target.value));
   };
 
+  function handleSendIt() {
+    console.log(typeof sliderValue)
+    props.handlePlayerActions({ type: "move", source_id: props.sourceId, target_id: props.targetId, count: sliderValue });
+    setSliderValue(0);
+    props.popupOff();
+  }
 
   return (
     <div className="modal">
@@ -126,7 +132,7 @@ function AttackPopup(props) {
           <button className="attack-close" onClick={props.popupOff}>
             Cancel
           </button>
-          <button className="attack-confirm" onClick={props.handlePlayerActions({ type: "move", source_id: props.sourceId, target_id: props.targetId, count: sliderValue })}>
+          <button className="attack-confirm" onClick={handleSendIt}>
             Send It
           </button>
         </div>
