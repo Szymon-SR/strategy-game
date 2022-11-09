@@ -77,7 +77,8 @@ function Game(props) {
       message.building = action.building;
     }
     if (action.type === "move") {
-      message.direction = action.direction;
+      message.source_id = action.source_id;
+      message.target_id = action.target_id;
       message.count = action.count;
     }
 
@@ -141,6 +142,7 @@ function Game(props) {
           tileCoordinates={gameState.tile_coordinates}
           soldierPositions={gameState.soldier_positions}
           playerIndex={playerIndex}
+          handlePlayerActions={handlePlayerActions}
         />
         <FocusMenu
           anySelected={selected.anySelected}

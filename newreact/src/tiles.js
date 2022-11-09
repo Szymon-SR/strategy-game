@@ -35,7 +35,7 @@ function Tile(props) {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: dragTypes.HEX,
         canDrop: (item, monitor) => canMoveSoldiers(item.sourceCoords, props.coords),
-        drop: (item, monitor) => props.attackPopupOn(item.sourceId, props.hexId, props.soldierCount[props.playerIndex]),
+        drop: (item, monitor) => props.attackPopupOn(item.sourceId, props.hexId, item.availableSoldiers),
         collect: monitor => ({
             isOver: !!monitor.isOver(),
             canDrop: !!monitor.canDrop()
@@ -79,15 +79,16 @@ function Tile(props) {
 function Hex(props) {
     const sourceId = props.hexId;
     const sourceCoords = props.coords;
+    const availableSoldiers = props.soldierCount;
 
     const [{ isDragging }, drag, preview] = useDrag(() => ({
         type: dragTypes.HEX,
-        item: { sourceId, sourceCoords },
+        item: { sourceId, sourceCoords, availableSoldiers },
         canDrag: () => props.ownSoldiers,
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [sourceId, sourceCoords])
+    }), [sourceId, sourceCoords, availableSoldiers])
 
     const homeClass = props.isHome ? 'home' : ''
     const canDropClass = props.canDrop ? 'can-drop' : ''
