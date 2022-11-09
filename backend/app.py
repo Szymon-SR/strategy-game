@@ -33,10 +33,11 @@ async def handle_incoming(websocket, game: Game, player: int):
             game.players[player_id].recruit(game.tiles[hex_id])
         if event["type"] == "move":
             print(f"MOVE EVENT {message}")
-            direction = event["direction"]
+            source_id = event["source_id"];
+            target_id = event["target_id"];
             soldier_count = event["count"]
 
-            game.handle_soldier_moves(player_id, hex_id, direction, soldier_count)
+            game.handle_soldier_moves(player_id, source_id, target_id, soldier_count)
         else:
             logging.error(event)
 
