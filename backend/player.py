@@ -115,10 +115,11 @@ class Player():
         if source in self.soldier_positions:
             if self.soldier_positions[source] >= soldier_count:
                 # move soldiers
-                logging.info(
-                    f"destination {destination} soldier_count {soldier_count}")
 
                 self.soldier_positions[source] -= soldier_count
+                # if reached zero, delete from dict
+                self.soldier_positions = {key:val for key, val in self.soldier_positions.items() if val > 0}
+
                 self.increase_soldiers_in_tile(destination, soldier_count)
             else:
                 logging.error("Not enough soldiers")
@@ -127,3 +128,4 @@ class Player():
         self.money = 0
         self.soldier_positions.clear()
         print(f"Player {self.id} lost the game")
+        # TODO send info to frontend

@@ -1,5 +1,13 @@
+:root {
+    --base-color: #EDEEC0;
+    --map-color: #AAAE7F;
+    --player-one-color: #942911;
+    --player-two-color: #114B5F;
+    --detail-color: #F4A698;
+}
+
 .game {
-    background-color: white;
+    background-color: var(--base-color);
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -15,7 +23,7 @@
 
 .focus-menu {
     width: 400px;
-    background-color: #EDEEC0;
+    background-color: var(--base-color);
 }
 
 .badge-red,
@@ -50,8 +58,8 @@
 
 table,
 th {
-    background-color: #EDEEC0;
-    border: 5px solid #F4A698;
+    background-color: var(--base-color);
+    border: 5px solid var(--detail-color);
     height: 45px;
     text-align: center;
 }
@@ -100,15 +108,15 @@ th {
 
 /* Hex colors based on who owns them*/
 .neutral {
-    background-color: #AAAE7F;
+    background-color: var(--map-color);
 }
 
 .red {
-    background-color: #942911;
+    background-color: var(--player-one-color);
 }
 
 .blue {
-    background-color: #114B5F;
+    background-color: var(--player-two-color);
 }
 
 .hex:hover {
@@ -156,7 +164,7 @@ th {
     height: 90%;
     letter-spacing: 2px;
     text-decoration: none;
-    background-color: #F4A698;
+    background-color: var(--detail-color);
     text-transform: uppercase;
     color: #000;
     cursor: pointer;
