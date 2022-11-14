@@ -1,7 +1,6 @@
 import asyncio
 import json
 import websockets
-import random
 import secrets
 
 from game_state import Game
@@ -12,7 +11,7 @@ logging.basicConfig(format="%(message)s", level=logging.ERROR)
 logger = logging.getLogger('websockets.server')
 logger.setLevel(logging.ERROR)
 
-# set of all games
+# dict of all games
 JOIN = {}
 
 
@@ -33,8 +32,8 @@ async def handle_incoming(websocket, game: Game, player: int):
             game.players[player_id].recruit(game.tiles[hex_id])
         if event["type"] == "move":
             print(f"MOVE EVENT {message}")
-            source_id = event["source_id"];
-            target_id = event["target_id"];
+            source_id = event["source_id"]
+            target_id = event["target_id"]
             soldier_count = event["count"]
 
             game.handle_soldier_moves(player_id, source_id, target_id, soldier_count)
@@ -63,7 +62,9 @@ async def send_game_state(game: Game, connected):
 
         game_state = {
             "type": "game_state",
+            "game_status": game.status.value,
             "day": game.day,
+            "player_statuses": [player0.status.value, player1.status.value],
             "home_tiles": [player0.home_tile.id, player1.home_tile.id], # home tiles of players, by player index
             "money_balances": [player0.money, player1.money],
             "incomes": [player0.income, player1.income],
@@ -136,7 +137,7 @@ async def join(websocket, join_key):
         # Receive and process moves from the second player, also start sending game state
         tasks = []
         tasks.append(asyncio.create_task(handle_incoming(websocket, game, player_index)))
-        tasks.append(asyncio.create_task(send_game_state(game, connected))) # TODO move to first player's start?
+        tasks.append(asyncio.create_task(send_game_state(game, connected)))
         await asyncio.gather(*tasks)
 
     finally:

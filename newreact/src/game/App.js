@@ -17,7 +17,9 @@ function Game(props) {
   const [inviteLink, setInviteLink] = useState("");
 
   const [gameState, setGameState] = useState({
+    game_status: 1,
     day: 0,
+    player_statuses: [1, 1],
     home_tiles: [], // home tiles of players, by player index
     money_balances: [0, 0],
     incomes: [0, 0],
@@ -133,13 +135,15 @@ function Game(props) {
       />
       <TopBar
         day={gameState.day}
+        // balance and income are personalized for specific player
         balance={gameState.money_balances[playerIndex]}
         income={gameState.incomes[playerIndex]}
       />
       <SelectedDispatch.Provider value={dispatch}>
         <CenterPanel
+          gameStatus={gameState.game_status}
+          playerStatus={gameState.player_statuses[playerIndex]}
           home_tiles={gameState.home_tiles}
-          // balance and income are personalized for specific player
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
           tileCoordinates={gameState.tile_coordinates}

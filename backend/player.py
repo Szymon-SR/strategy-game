@@ -1,11 +1,12 @@
 import random
 from typing import List
+from enum import Enum
 
 from tile import Tile
 import logging
 logging.basicConfig(format="%(message)s", level=logging.DEBUG)
 
-STARTING_MONEY = 500
+STARTING_MONEY = 5000
 STARTING_SOLDIERS = 7
 COSTS = {"claim": 250, "tower": 150, "windmill": 200, "recruit": 50}
 
@@ -20,10 +21,15 @@ def generate_home_tile(hex_list: List[Tile]) -> Tile:
 
     return home
 
+class PlayerStatus(Enum):
+    PLAYING = 1
+    WON = 2
+    LOST = 3
+    DISCONNECTED = 4
 
 class Player():
     """Class keeping the data of one player and his country"""
-    home_hexes = []  # class variable to ensure two players don't get the same starting tile
+    home_hexes: List[int] = []  # class variable to ensure two players don't get the same starting tile
 
     def __init__(self, valid_hexes: List[Tile], id: int):
         self.id = id
@@ -32,6 +38,7 @@ class Player():
         self.income = 0.0
         self.owned_tiles = [self.home_tile]
         self.soldier_positions = {self.home_tile: STARTING_SOLDIERS}
+        self.status = PlayerStatus.PLAYING
 
     def soldier_positions_ints(self) -> dict:
         """Returns the soldier count by tile id instead of tile object"""
@@ -106,6 +113,7 @@ class Player():
         if COSTS["recruit"] <= self.money and target_tile in self.owned_tiles:
             self.money -= COSTS["recruit"]
             self.increase_soldiers_in_tile(target_tile, 1)
+            return True
         else:
             return False
 
@@ -125,7 +133,13 @@ class Player():
                 logging.error("Not enough soldiers")
 
     def lose_game(self):
+        """Called when player loses his home tile / castle"""
         self.money = 0
         self.soldier_positions.clear()
-        print(f"Player {self.id} lost the game")
-        # TODO send info to frontend
+        self.owned_tiles = []
+        self.status = PlayerStatus.LOST
+        #  TODO send info to frontend
+
+    def win_game(self):
+        """Called when the other player loses"""
+        self.status = PlayerStatus.WON

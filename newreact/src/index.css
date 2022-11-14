@@ -16,6 +16,7 @@ body {
 }
 */
 
+
 .base-menu {
     height: 500px;
     background-color: var(--detail-color);
@@ -27,8 +28,14 @@ body {
     border-spacing: 45px;
 }
 
+.link-field {
+    background-color: var(--text-color);
+}
+
 .game {
     background-color: var(--base-color);
+    background-image: url('game/images/mountain.jpg');
+
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

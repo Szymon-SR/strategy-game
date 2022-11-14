@@ -45,4 +45,26 @@ function AttackPopup(props) {
     );
   }
 
-  export { AttackPopup };
+  function EndgamePopup(props) {
+    
+  
+    return (
+      <div className="modal">
+        <div className="modal_content">
+          <p>{props.endgameMessage}</p>
+          <div className="slider-panel">
+          </div>
+          <div className="popup-buttons">
+            <button>
+              Main menu
+            </button>
+            <button>
+              Statistics
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  export { AttackPopup, EndgamePopup };

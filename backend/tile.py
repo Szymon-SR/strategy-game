@@ -45,8 +45,8 @@ class Tile:
 
     def __init__(self, id: int):
         self.id = id
-        self.income_multiplier = 1
-        self.defensiveness_multiplier = 1
+        self.income_multiplier = 1.0
+        self.defensiveness_multiplier = 1.0
         self.coordinates = calculate_coordinates(id)
         self.buildings = []
 

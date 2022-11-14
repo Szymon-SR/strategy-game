@@ -19,7 +19,7 @@ function BaseMenu(props) {
           </tr>
           <tr>
             <td>Invite link</td>
-            <td><a href={props.inviteLink}>{props.inviteLink}</a></td>
+            <td className='link-field'><a href={props.inviteLink}>{props.inviteLink}</a></td>
           </tr>
           <tr>
             <td>Scores</td>

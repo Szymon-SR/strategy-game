@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { Tile } from './tiles.js'
-import { AttackPopup } from './attack-popup.js'
+import { AttackPopup, EndgamePopup } from './popups.js'
 
 // All components in the Center panel
 
@@ -14,6 +14,8 @@ function CenterPanel(props) {
     >
       <DndProvider backend={HTML5Backend}>
         <Board
+          gameStatus={props.gameStatus}
+          playerStatus={props.playerStatus}
           numberOfTiles={props.numberOfTiles}
           home_tiles={props.home_tiles}
           owned_tiles={props.owned_tiles}
@@ -31,6 +33,8 @@ function CenterPanel(props) {
 
 function Board(props) {
   const [popupVisible, setPopupVisible] = useState(false);
+  const [endgameVisible, setEndgameVisible] = useState(false);
+  const [endgameMessage, setEndgameMessage] = useState("");
   const [attackSource, setAttackSource] = useState(0);
   const [attackTarget, setAttackTarget] = useState(0);
   const [availableSoldiers, setAvailableSoldiers] = useState(0);
@@ -43,8 +47,18 @@ function Board(props) {
     setAttackSource(sourceId);
     setAttackTarget(targetId);
     setPopupVisible(true);
-    console.log(numOfSoldiersAvailable + "dsadsae")
     setAvailableSoldiers(numOfSoldiersAvailable);
+  }
+
+  if (props.gameStatus != 1) {
+    if (props.playerStatus === 2) {
+      setEndgameMessage("You won the game!");
+    }
+    if (props.playerStatus === 3) {
+      setEndgameMessage("You lost the game!");
+    }
+
+    setEndgameVisible(true);
   }
 
   return (
@@ -52,6 +66,7 @@ function Board(props) {
       className="board"
     >
       {popupVisible ? <AttackPopup popupOff={popupOff} sourceId={attackSource} targetId={attackTarget} availableSoldiers={availableSoldiers} handlePlayerActions={props.handlePlayerActions} /> : null}
+      {endgameVisible ? <EndgamePopup endgameMessage={endgameMessage}/> : null}
       <Map
         numberOfTiles={props.numberOfTiles}
         home_tiles={props.home_tiles}
