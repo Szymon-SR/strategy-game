@@ -8,8 +8,18 @@ function MainMenu(props) {
 
     return (
         <div className='main-menu'>
+            <AccountBar />
             <MenuPanel />
             <BottomBar />
+        </div>
+    )
+}
+
+function AccountBar(props) {
+
+    return (
+        <div className='account-bar'>
+            Not logged in - TODO
         </div>
     )
 }
@@ -28,7 +38,7 @@ function BottomBar(props) {
 
     return (
         <div className='bottom-bar'>
-
+            Made in 2022
         </div>
     )
 }
