@@ -89,7 +89,6 @@ function Map(props) {
     }
   }
 
-  // console.log(soldierOwners);
   // console.log(soldierCounts);
 
   // create all hex tiles

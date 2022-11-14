@@ -62,11 +62,11 @@ function TileInfo(props) {
           <td>{props.selectedId}</td>
         </tr>
         <tr>
-          <td>Income from this tile</td>
+          <td>Local income</td>
           <td>{props.selectedIncome}</td>
         </tr>
         <tr>
-          <td>Defense of this tile</td>
+          <td>Local defense</td>
           <td>{props.selectedDefensiveness}</td>
         </tr>
       </tbody>

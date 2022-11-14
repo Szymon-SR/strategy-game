@@ -6,8 +6,6 @@ import { SelectedDispatch } from "./App.js"
 import { playerColors, dragTypes, neighborsDeltas } from "./constants.js"
 
 
-
-
 function canMoveSoldiers(srcCoords, dstCoords) {
     // checks if two tiles are neighboring, based on
     // cube coordinates sent from backend
@@ -31,6 +29,7 @@ function canMoveSoldiers(srcCoords, dstCoords) {
 }
 // console.log("drop" + item.sourceId + " " + props.hexId),  // TODO
 
+
 function Tile(props) {
     const [{ isOver, canDrop }, drop] = useDrop(() => ({
         accept: dragTypes.HEX,
@@ -42,8 +41,11 @@ function Tile(props) {
         }),
     }), [props.coords])
 
-    const ownerColor = playerColors[props.ownerId];
     const soldierOwnerColor = playerColors[props.soldierOwnerId];
+    let ownerColor = playerColors[props.ownerId];
+    if (ownerColor === "neutral") {
+        ownerColor = "neutral" + ((Math.floor(props.hexId / 10) + props.hexId * 2) % 3).toString();
+    }
 
     // selecting / unselecting
     const dispatch = useContext(SelectedDispatch);

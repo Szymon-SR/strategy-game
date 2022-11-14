@@ -40,8 +40,20 @@
 
 
 /* Hex colors based on who owns them*/
-.neutral {
+.neutral0 {
     background-color: var(--map-color);
+}
+
+.neutral1 {
+    background-color: var(--map-color2);
+}
+
+.neutral2 {
+    background-color: var(--map-color3);
+}
+
+.neutral3 {
+    background-color: rebeccapurple;
 }
 
 .red {
@@ -130,7 +142,6 @@
 
 .attack-slider {
     float: left;
-    -webkit-appearance: none;
     width: 90%;
     height: 25px;
     background: var(--detail-color);

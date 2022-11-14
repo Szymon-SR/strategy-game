@@ -34,28 +34,5 @@ function BaseMenu(props) {
   )
 }
 
-// function PlayerInfo(props) {
-//   return (
-//     <div>
-//       Your id: {props.playerIndex}
-//     </div>
-//   )
-// }
-
-// function RoomInfo(props) {
-//   return (
-//     <div>
-//       {props.inviteLink}
-//     </div>
-//   )
-// }
-
-// function ScoreInfo(props) {
-//   return (
-//     <div>
-//       Not yet
-//     </div>
-//   )
-// }
 
 export { BaseMenu };

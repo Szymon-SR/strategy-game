@@ -1,6 +1,8 @@
 :root {
     --base-color: #EDEEC0;
     --map-color: #AAAE7F;
+    --map-color2: #9aae7f;
+    --map-color3: #bcab77;
     --player-one-color: #942911;
     --player-two-color: #114B5F;
     --detail-color: #63463f;
@@ -77,8 +79,8 @@ body {
 
 .tile-info {
     width: 100%;
-    background-color: var(--text-color);
-    color: var(--detail-color);
+    background-color: var(--detail-color);
+    color: var(--text-color);
     border-spacing: 15px;
 }
 
