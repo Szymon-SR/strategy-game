@@ -1,0 +1,13 @@
+
+.main-menu {
+    display: flex;
+    justify-content: center;
+}
+
+.menu-panel {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.menu-panel

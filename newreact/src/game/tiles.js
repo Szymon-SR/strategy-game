@@ -2,7 +2,7 @@ import { DragPreviewImage, useDrag, useDrop } from 'react-dnd'
 import React from 'react'
 import { useContext } from 'react'
 
-import { SelectedDispatch } from "./App.js"
+import { SelectedDispatch } from "./game-main.js"
 import { playerColors, dragTypes, neighborsDeltas } from "./constants.js"
 
 

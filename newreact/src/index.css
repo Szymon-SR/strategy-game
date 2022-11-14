@@ -34,8 +34,7 @@ body {
 
 .game {
     background-color: var(--base-color);
-    background-image: url('game/images/mountain.jpg');
-
+    /* background-image: url('game/images/mountain.jpg'); */
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;

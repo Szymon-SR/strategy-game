@@ -73,7 +73,7 @@
 }
 
 .home {
-    background-image: url('game/images/smaller_castle.png');
+    background-image: url('images/smaller_castle.png');
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
@@ -92,7 +92,7 @@
 }
 
 .can-drop {
-    background-image: url('game/images/target.png');
+    background-image: url('images/target.png');
     background-repeat: no-repeat;
     background-position: center;
     position: relative;

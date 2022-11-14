@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { SelectedDispatch } from "./App.js"
+import { SelectedDispatch } from "./game-main.js"
 
 
 //Right
