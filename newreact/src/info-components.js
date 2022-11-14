@@ -7,7 +7,7 @@ function BaseMenu(props) {
     <div
       className="base-menu"
     >
-      <table>
+      <table className='base-menu'>
         <tbody>
           <tr>
             <td>Your id</td>

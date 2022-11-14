@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext } from "react"
 import { SelectedDispatch } from "./App.js"
 
 
@@ -55,7 +55,7 @@ function HexAction(props) {
 
 function TileInfo(props) {
   return (
-    <table>
+    <table className="tile-info">
       <tbody>
         <tr>
           <td>Selected Tile</td>

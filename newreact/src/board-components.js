@@ -12,11 +12,6 @@ function CenterPanel(props) {
     <div
       className="center-panel"
     >
-      <TopBar
-        day={props.day}
-        balance={props.balance}
-        income={props.income}
-      />
       <DndProvider backend={HTML5Backend}>
         <Board
           numberOfTiles={props.numberOfTiles}
@@ -32,35 +27,7 @@ function CenterPanel(props) {
   )
 }
 
-function TopBar(props) {
-  // menu which displays basic data about player's country
-  return (
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            Day
-          </td>
-          <td>
-            {props.day}
-          </td>
-          <td>
-            Money
-          </td>
-          <td>
-            {props.balance}
-          </td>
-          <td>
-            Income
-          </td>
-          <td>
-            {props.income}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  )
-}
+
 
 function Board(props) {
   const [popupVisible, setPopupVisible] = useState(false);

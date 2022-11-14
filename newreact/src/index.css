@@ -3,7 +3,24 @@
     --map-color: #AAAE7F;
     --player-one-color: #942911;
     --player-two-color: #114B5F;
-    --detail-color: #F4A698;
+    --detail-color: #63463f;
+    --text-color: #FFD700;
+}
+
+body {
+    font-family: 'cursive';
+    font-size: large;
+}
+
+.base-menu {
+    height: 500px;
+    background-color: var(--detail-color);
+    color: var(--text-color);
+    border: 3px solid;
+    box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-spacing: 55px;
 }
 
 .game {
@@ -56,14 +73,17 @@
     /*background-color: #EDEEC0;*/
 }
 
-table,
-th {
-    background-color: var(--base-color);
-    border: 5px solid var(--detail-color);
-    height: 45px;
-    text-align: center;
-}
 
+.top-bar {
+    height: 50px;
+    background-color: var(--detail-color);
+    color: var(--text-color);
+    border-spacing: 15px;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+}
 
 .board {
     width: 900px;
@@ -145,6 +165,12 @@ th {
     display: none;
 }
 
+.tile-info {
+    width: 100%;
+    background-color: var(--text-color);
+    color: var(--detail-color);
+}
+
 .action-card {
     display: flex;
     justify-content: space-between;
@@ -166,7 +192,7 @@ th {
     text-decoration: none;
     background-color: var(--detail-color);
     text-transform: uppercase;
-    color: #000;
+    color: var(--text-color);
     cursor: pointer;
     border: 3px solid;
     padding: 0.25em 0.5em;

@@ -3,6 +3,7 @@ import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { BaseMenu } from './info-components.js';
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
+import { TopBar } from './top-bar.js';
 
 // Components 
 const SelectedDispatch = React.createContext(null);
@@ -46,7 +47,7 @@ function Game(props) {
 
   const selectedReducer = (state, action) => {
     // reducer for handling of selecting / unselecting tiles on map, by clicking on tiles
-    
+
     switch (action.type) {
       case "click": {
         if (state.lastSelected === action.clickedId) {
@@ -69,7 +70,7 @@ function Game(props) {
   const handlePlayerActions = (action) => {
     // handles actions from the side menu, actions which player does on a specific tile
     let message = { type: action.type, player_id: playerIndex, hex_id: selected.lastSelected };
-    
+
     const validActions = ["claim", "build", "move", "recruit"]
     console.assert(validActions.includes(action.type))
 
@@ -130,13 +131,15 @@ function Game(props) {
         playerIndex={playerIndex}
         inviteLink={inviteLink}
       />
+      <TopBar
+        day={gameState.day}
+        balance={gameState.money_balances[playerIndex]}
+        income={gameState.incomes[playerIndex]}
+      />
       <SelectedDispatch.Provider value={dispatch}>
         <CenterPanel
-          day={gameState.day}
           home_tiles={gameState.home_tiles}
           // balance and income are personalized for specific player
-          balance={gameState.money_balances[playerIndex]}
-          income={gameState.incomes[playerIndex]}
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
           tileCoordinates={gameState.tile_coordinates}
