@@ -7,10 +7,12 @@
     --text-color: #FFD700;
 }
 
+/*
 body {
     font-family: 'cursive';
     font-size: large;
 }
+*/
 
 .base-menu {
     height: 500px;
@@ -20,7 +22,7 @@ body {
     box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    border-spacing: 55px;
+    border-spacing: 45px;
 }
 
 .game {
@@ -55,18 +57,6 @@ body {
     /* Standard */
 }
 
-.badge-red {
-    background-color: lightcoral;
-}
-
-.badge-neutral {
-    background-color: lightgreen;
-}
-
-.badge-blue {
-    background-color: lightblue;
-}
-
 .center-panel {
     display: flex;
     flex-direction: column;
@@ -78,102 +68,25 @@ body {
     height: 50px;
     background-color: var(--detail-color);
     color: var(--text-color);
-    border-spacing: 15px;
+    border-spacing: 25px;
     position:fixed;
     top:0;
     width:100%;
     z-index:100;
 }
 
-.board {
-    width: 900px;
-    --s: 100px;
-    /* size of hexes  */
-    --m: 2px;
-    /* margin between hexes */
-    --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, calc(var(--s) + 2*var(--mh)));
-    justify-content: center;
-}
-
-.map {
-    font-size: 0;
-    /*disable white space between inline block element */
-    grid-column: 1/-1;
-}
-
-.map div {
-    width: var(--s);
-    margin: var(--m);
-    height: calc(var(--s)*1.1547);
-    display: inline-block;
-    vertical-align: top;
-    font-size: initial;
-    clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
-    margin-bottom: calc(var(--m) - var(--s)*0.2885);
-    text-align: center;
-}
-
-.map::before {
-    content: "";
-    width: calc(var(--s)/2 + var(--m));
-    float: left;
-    height: 120%;
-    /* move every other row to right */
-    shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px),
-            #000 0 var(--f));
-}
-
-
-/* Hex colors based on who owns them*/
-.neutral {
-    background-color: var(--map-color);
-}
-
-.red {
-    background-color: var(--player-one-color);
-}
-
-.blue {
-    background-color: var(--player-two-color);
-}
-
-.hex:hover {
-    background-color: lightgray;
-}
-
-.hex:hover~.empty {
-    background-color: white;
-}
-
-.home {
-    background-image: url('images/smaller_castle.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.can-drop {
-    background-image: url('images/target.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.hidden {
-    display: none;
-}
-
 .tile-info {
     width: 100%;
     background-color: var(--text-color);
     color: var(--detail-color);
+    border-spacing: 15px;
 }
 
 .action-card {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     margin-top: 5%;
     margin-bottom: 5%;
 }
@@ -181,11 +94,16 @@ body {
 .action-texts {
     display: flex;
     flex-direction: column;
-    width: 25%;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
 }
 
-.action-button,
-.unselect {
+.action-description {
+    text-align: center;
+}
+
+button {
     width: 25%;
     height: 90%;
     letter-spacing: 2px;
@@ -203,31 +121,11 @@ body {
     touch-action: manipulation;
 }
 
-.modal {
-    position: fixed;
-    z-index: 1;
-    width: 900px;
-    height: 100%;
+.action-button {
+    height: 100px;
 }
 
-.modal_content {
-    background-color: white;
-    position: absolute;
-    top: 20%;
-    left: 30%;
-    width: 40%;
-    padding: 20px;
-    border-radius: 5px;
-    border: 2px solid black;
+.unselect {
+    width: 100%;
+    height: 45px;
 }
-
-.close {
-    color: Black;
-    float: right;
-  }
-  
-  .close:hover {
-    color: cyan;
-    cursor: pointer;
-  }
-  

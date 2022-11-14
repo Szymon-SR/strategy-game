@@ -30,7 +30,7 @@ function AttackPopup(props) {
               className="attack-slider"
               value={sliderValue}
             ></input>
-            <p>{sliderValue}</p>
+            <p className="slider-val">{sliderValue}</p>
           </div>
           <div className="popup-buttons">
             <button className="attack-close" onClick={props.popupOff}>
