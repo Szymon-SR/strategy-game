@@ -12,7 +12,7 @@ body {
 }
 
 .account-bar {
-    height: 50px;
+    height: 35px;
     background-color: var(--detail-color);
     color: var(--text-color);
     border-spacing: 25px;
@@ -45,4 +45,8 @@ body {
     bottom:0;
     width:100%;
     z-index:100;
+}
+
+.join-button {
+    height: 100%;
 }

@@ -73,7 +73,6 @@ body {
 
 
 .top-bar {
-    height: 50px;
     background-color: var(--detail-color);
     color: var(--text-color);
     border-spacing: 25px;
@@ -113,7 +112,6 @@ body {
 
 button {
     width: 25%;
-    height: 90%;
     letter-spacing: 2px;
     text-decoration: none;
     background-color: var(--detail-color);
@@ -130,7 +128,7 @@ button {
 }
 
 .action-button {
-    height: 100px;
+    height: 100%;
 }
 
 .unselect {

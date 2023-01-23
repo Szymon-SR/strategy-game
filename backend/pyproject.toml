@@ -5,8 +5,8 @@ description = ""
 authors = ["Szymon-SR <srszymonsr@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-websockets = "^10.3"
+python = "^3.11"
+websockets = "^10.4"
 
 [tool.poetry.dev-dependencies]
 

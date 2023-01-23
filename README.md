@@ -8,4 +8,4 @@ poetry run python app.py
 
 2.
 cd frontend
-python -m http.server
+npm start

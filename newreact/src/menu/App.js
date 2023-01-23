@@ -1,5 +1,5 @@
 import './menu.css';
-
+import { Routes, Route, Outlet, Link } from "react-router-dom";
 
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 
@@ -11,6 +11,9 @@ function MainMenu(props) {
             <AccountBar />
             <MenuPanel />
             <BottomBar />
+            <Routes>
+                
+            </Routes>
         </div>
     )
 }
@@ -19,7 +22,8 @@ function AccountBar(props) {
 
     return (
         <div className='account-bar'>
-            Not logged in - TODO
+            <button>Register</button>
+            <button>Login</button>
         </div>
     )
 }
@@ -28,8 +32,9 @@ function MenuPanel(props) {
 
     return (
         <div className='menu-panel'>
-            <button>Start new game</button>
-            <button>Join game</button>
+            <button className='join-button'>Create new game</button>
+            <button className='join-button'>Join game</button>
+            <button className='join-button'>Online Statistics</button>
         </div>
     )
 }
@@ -38,7 +43,7 @@ function BottomBar(props) {
 
     return (
         <div className='bottom-bar'>
-            Made in 2022
+            Strategy game
         </div>
     )
 }

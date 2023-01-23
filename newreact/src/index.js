@@ -6,5 +6,11 @@ import './game/map.css';
 import { Game } from "./game/game-main.js";
 import { MainMenu } from "./menu/App.js"
 
+import { BrowserRouter } from "react-router-dom";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<MainMenu />);
+root.render(
+    <BrowserRouter>
+        <MainMenu />
+    </BrowserRouter>
+);
