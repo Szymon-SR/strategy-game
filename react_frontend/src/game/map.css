@@ -1,0 +1,181 @@
+.board {
+    width: 900px;
+    --s: 100px;
+    /* size of hexes  */
+    --m: 2px;
+    /* margin between hexes */
+    --f: calc(1.732 * var(--s) + 4 * var(--m) - 1px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, calc(var(--s) + 2*var(--mh)));
+    justify-content: center;
+}
+
+.map {
+    font-size: 0;
+    /*disable white space between inline block element */
+    grid-column: 1/-1;
+}
+
+.map div {
+    width: var(--s);
+    margin: var(--m);
+    height: calc(var(--s)*1.1547);
+    display: inline-block;
+    vertical-align: top;
+    font-size: initial;
+    clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+    margin-bottom: calc(var(--m) - var(--s)*0.2885);
+    text-align: center;
+}
+
+.map::before {
+    content: "";
+    width: calc(var(--s)/2 + var(--m));
+    float: left;
+    height: 120%;
+    /* move every other row to right */
+    shape-outside: repeating-linear-gradient(#0000 0 calc(var(--f) - 3px),
+            #000 0 var(--f));
+}
+
+
+/* Hex colors based on who owns them*/
+.neutral0 {
+    background-color: var(--map-color);
+}
+
+.neutral1 {
+    background-color: var(--map-color2);
+}
+
+.neutral2 {
+    background-color: var(--map-color3);
+}
+
+.neutral3 {
+    background-color: rebeccapurple;
+}
+
+.red {
+    background-color: var(--player-one-color);
+}
+
+.blue {
+    background-color: var(--player-two-color);
+}
+
+.hex:hover {
+    background-color: lightgray;
+}
+
+.hex:hover~.empty {
+    background-color: white;
+}
+
+.home {
+    background-image: url('images/smaller_castle.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.badge-red {
+    background-color: lightcoral;
+}
+
+.badge-neutral {
+    background-color: lightgreen;
+}
+
+.badge-blue {
+    background-color: lightblue;
+}
+
+.can-drop {
+    background-image: url('images/target.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    width: 900px;
+    height: 100%;
+}
+
+.modal_content {
+    background-color: white;
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 40%;
+    padding: 20px;
+    border-radius: 5px;
+    border: 2px solid black;
+}
+
+.close {
+    color: Black;
+    float: right;
+}
+
+.close:hover {
+    color: cyan;
+    cursor: pointer;
+}
+
+.modal_content {
+    background-color: var(--base-color);
+    color: var(--detail-color);
+}
+
+.slider-panel {
+    display: flex;
+    align-items: center;
+}
+
+.attack-slider {
+    float: left;
+    width: 90%;
+    height: 25px;
+    background: var(--detail-color);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider-val {
+    padding-left: 5%;
+}
+
+
+.attack-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: var(--text-color);
+    cursor: pointer;
+}
+
+.attack-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: var(--text-color);
+    cursor: pointer;
+}
+
+.popup-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 5%;
+}

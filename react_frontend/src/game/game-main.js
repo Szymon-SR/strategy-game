@@ -1,11 +1,9 @@
 import React, { useEffect, useReducer, useRef, useState } from 'react';
 
+import { BaseMenu } from './info-components.js';
 import { CenterPanel } from "./board-components.js";
 import { FocusMenu } from "./focus-components.js";
-
-import Table from 'react-bootstrap/Table';
-
-const playerColors = ["neutral", "red", "blue"]
+import { TopBar } from './top-bar.js';
 
 // Components 
 const SelectedDispatch = React.createContext(null);
@@ -19,13 +17,16 @@ function Game(props) {
   const [inviteLink, setInviteLink] = useState("");
 
   const [gameState, setGameState] = useState({
+    game_status: 1,
     day: 0,
+    player_statuses: [1, 1],
     home_tiles: [], // home tiles of players, by player index
     money_balances: [0, 0],
     incomes: [0, 0],
     owned_tiles: [[], []],
     tile_incomes: [],
     tile_defenses: [],
+    tile_coordinates: [],
     soldier_positions: [],
   });
 
@@ -48,7 +49,7 @@ function Game(props) {
 
   const selectedReducer = (state, action) => {
     // reducer for handling of selecting / unselecting tiles on map, by clicking on tiles
-    
+
     switch (action.type) {
       case "click": {
         if (state.lastSelected === action.clickedId) {
@@ -71,7 +72,7 @@ function Game(props) {
   const handlePlayerActions = (action) => {
     // handles actions from the side menu, actions which player does on a specific tile
     let message = { type: action.type, player_id: playerIndex, hex_id: selected.lastSelected };
-    
+
     const validActions = ["claim", "build", "move", "recruit"]
     console.assert(validActions.includes(action.type))
 
@@ -79,7 +80,8 @@ function Game(props) {
       message.building = action.building;
     }
     if (action.type === "move") {
-      message.direction = action.direction;
+      message.source_id = action.source_id;
+      message.target_id = action.target_id;
       message.count = action.count;
     }
 
@@ -97,11 +99,8 @@ function Game(props) {
       switch (event.type) {
         case "init":
           // Create links for inviting the second player
-          const link = "http://0.0.0.0:3000/?join=" + event.join;
+          const link = "" + event.join;
           setInviteLink(link);
-
-          // Getting init message means that this is the first player
-          // playerIndex = 0
           break;
         case "game_state":
           setGameState(event);
@@ -131,16 +130,23 @@ function Game(props) {
         playerIndex={playerIndex}
         inviteLink={inviteLink}
       />
+      <TopBar
+        day={gameState.day}
+        // balance and income are personalized for specific player
+        balance={gameState.money_balances[playerIndex]}
+        income={gameState.incomes[playerIndex]}
+      />
       <SelectedDispatch.Provider value={dispatch}>
         <CenterPanel
-          day={gameState.day}
+          gameStatus={gameState.game_status}
+          playerStatus={gameState.player_statuses[playerIndex]}
           home_tiles={gameState.home_tiles}
-          // balance and income are personalized for specific player
-          balance={gameState.money_balances[playerIndex]}
-          income={gameState.incomes[playerIndex]}
           owned_tiles={gameState.owned_tiles}
           numberOfTiles={numberOfTiles}
+          tileCoordinates={gameState.tile_coordinates}
           soldierPositions={gameState.soldier_positions}
+          playerIndex={playerIndex}
+          handlePlayerActions={handlePlayerActions}
         />
         <FocusMenu
           anySelected={selected.anySelected}
@@ -154,63 +160,6 @@ function Game(props) {
   );
 }
 
-// ==============================================
-
-function BaseMenu(props) {
-  return (
-    <div
-      className="base-menu"
-    >
-      <Table>
-        <tbody>
-          <tr>
-            <td>Your id</td>
-            <td>{props.playerIndex}</td>
-          </tr>
-          <tr>
-            <td>Your color</td>
-            <td>{playerColors[props.playerIndex + 1]}</td>
-          </tr>
-          <tr>
-            <td>Invite link</td>
-            <td>{props.inviteLink}</td>
-          </tr>
-          <tr>
-            <td>Scores</td>
-            <td>TODO</td>
-          </tr>
-        </tbody>
-      </Table>
-      {/* <PlayerInfo playerIndex={props.playerIndex} />
-        <RoomInfo inviteLink={props.inviteLink} />
-        <ScoreInfo /> */}
-    </div>
-  )
-}
-
-// function PlayerInfo(props) {
-//   return (
-//     <div>
-//       Your id: {props.playerIndex}
-//     </div>
-//   )
-// }
-
-// function RoomInfo(props) {
-//   return (
-//     <div>
-//       {props.inviteLink}
-//     </div>
-//   )
-// }
-
-// function ScoreInfo(props) {
-//   return (
-//     <div>
-//       Not yet
-//     </div>
-//   )
-// }
 
 
-export { playerColors, SelectedDispatch, Game };  
+export { SelectedDispatch, Game };  

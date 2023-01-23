@@ -45,8 +45,8 @@ class Tile:
 
     def __init__(self, id: int):
         self.id = id
-        self.income_multiplier = 1
-        self.defensiveness_multiplier = 1
+        self.income_multiplier = 1.0
+        self.defensiveness_multiplier = 1.0
         self.coordinates = calculate_coordinates(id)
         self.buildings = []
 
@@ -59,6 +59,10 @@ class Tile:
     @property
     def defensiveness(self):
         return BASE_DEFENSIVENESS * self.defensiveness_multiplier
+
+    @property
+    def coords_as_list(self):
+        return [self.coordinates.q, self.coordinates.r, self.coordinates.s]
 
     def add_building(self, building: str) -> None:
         self.buildings.append(building)
