@@ -57,10 +57,10 @@ function TileInfo(props) {
   return (
     <table className="tile-info">
       <tbody>
-        <tr>
+        {/* <tr>
           <td>Selected Tile</td>
           <td>{props.selectedId}</td>
-        </tr>
+        </tr> */}
         <tr>
           <td>Local income</td>
           <td>{props.selectedIncome}</td>

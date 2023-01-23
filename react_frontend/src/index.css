@@ -90,8 +90,8 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: 5%;
-    margin-bottom: 5%;
+    /* margin-top: 5%;
+    margin-bottom: 5%; */
 }
 
 .action-texts {

@@ -101,9 +101,6 @@ function Game(props) {
           // Create links for inviting the second player
           const link = "" + event.join;
           setInviteLink(link);
-
-          // Getting init message means that this is the first player
-          // playerIndex = 0
           break;
         case "game_state":
           setGameState(event);
