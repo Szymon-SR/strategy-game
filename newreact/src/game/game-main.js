@@ -99,7 +99,7 @@ function Game(props) {
       switch (event.type) {
         case "init":
           // Create links for inviting the second player
-          const link = "http://0.0.0.0:3000/?join=" + event.join;
+          const link = "http://localhost:3000/?join=" + event.join;
           setInviteLink(link);
 
           // Getting init message means that this is the first player
