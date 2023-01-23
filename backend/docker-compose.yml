@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  strategy-websockets:
+    image: strategy-websockets
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    network_mode: host
+

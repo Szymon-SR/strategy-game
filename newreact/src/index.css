@@ -28,10 +28,6 @@ body {
     border-spacing: 45px;
 }
 
-.link-field {
-    background-color: var(--text-color);
-}
-
 .game {
     background-color: var(--base-color);
     /* background-image: url('game/images/mountain.jpg'); */

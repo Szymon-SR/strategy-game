@@ -18,12 +18,8 @@ function BaseMenu(props) {
             <td>{playerColors[props.playerIndex + 1]}</td>
           </tr>
           <tr>
-            <td>Invite link</td>
-            <td className='link-field'><a href={props.inviteLink}>{props.inviteLink}</a></td>
-          </tr>
-          <tr>
-            <td>Scores</td>
-            <td>TODO</td>
+            <td>Join game id</td>
+            <td>{props.inviteLink}</td>
           </tr>
         </tbody>
       </table>
